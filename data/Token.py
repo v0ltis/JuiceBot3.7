@@ -1,2 +1,2 @@
-TOKEN = ''
+TOKEN = 'TOKEN_HERE'
 GIPHY_KEY = ''
