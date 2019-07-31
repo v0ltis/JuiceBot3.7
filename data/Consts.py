@@ -1,5 +1,5 @@
 commands_prefix = '_'
-version = 1.9
+version = 2.0
 bot_name = 'JuiceBox'
 discord = 'https://discord.gg/Abfvn9y'
 website = 'https://juicebot.github.io/'
