@@ -1,0 +1,2 @@
+TOKEN = ''
+GIPHY_KEY = ''
