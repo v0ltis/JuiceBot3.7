@@ -4,10 +4,10 @@ fitler_FR_in = ['va te faire','va te faire voir','va te faire foutre','va te fai
 'ta guele','ta geule','garce',"ta race",'fumier','gland','kikou','noob','tapette','mauviette','merdeux',
 'michto','minus','moins-que-rien','moins que rien','mollusque','naze','sa mère','sac à merde','pd',
 "pédé","plouc",'salop','zguègue','trou de cul',"trou d'uc",'trou du cul',"trou de bal","trouduc",
-'tafiole','tarlouze','ptn','fk','fuck']
+'tafiole','tarlouze','ptn','fk ','fuck',' fk']
 
 fitler_FR_emoji = ['🖕',':middle_finger:']
-fitler_FR_not = ['tapette à ']
+fitler_FR_not = ['tapette à ','connerie']
 fitler_FR_and = []
 fitler_FR_or = []
 
