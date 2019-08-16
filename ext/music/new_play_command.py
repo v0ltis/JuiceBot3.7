@@ -10,7 +10,7 @@ async def play(self,ctx,url):
 			if x.startswith(str(ctx.guild.id)):
 				os.remove(Consts.music_location+x)
 	except PermissionError:
-		print("Trying to delete song file, but it's being played")
+		#print("Trying to delete song file, but it's being played")
 		await ctx.send('[Music] '+"ERROR: Music playing")
 		return False
 
@@ -20,7 +20,7 @@ async def play(self,ctx,url):
 	#setting ytdl_optns
 	ytdl_optns = Consts.ytdl_options
 	ytdl_optns['outtmpl'] = Consts.outtmpl.format(ctx.guild.id,1)
-	print(Consts.outtmpl.format(ctx.guild.id,1))
+	#print(Consts.outtmpl.format(ctx.guild.id,1))
 	#setting music info
 	self.music_info_per_guild[ctx.guild.id] = {'is_playlist':False,
 		'stoped':False,
@@ -45,7 +45,7 @@ async def play(self,ctx,url):
 					if not x in self.music_info_per_guild[ctx.guild.id]['download_state'][1]:
 						optns['playlist_items'] = str(x)
 						optns['outtmpl'] = Consts.outtmpl.format(ctx.guild.id,x)
-						print(optns['outtmpl'])
+						#print(optns['outtmpl'])
 						if not self.music_info_per_guild[ctx.guild.id]['stoped']:
 							with youtube_dl.YoutubeDL(optns) as ydl:
 								info = ydl.extract_info(url)
@@ -125,15 +125,15 @@ async def play(self,ctx,url):
 			else:
 				self.bot.auto_leave_for_guild[ctx.guild.id] = True
 				return True
-		print(Consts.music_location+file)
+		#print(Consts.music_location+file)
 		voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
 
 		voice.source = discord.PCMVolumeTransformer(voice.source)
 		voice.source.volume = 0.02
 
-		print(file)
+		#print(file)
 		title = ''.join(str(x) for x in file.split('-')[1:])
-		print(title)
+		#print(title)
 		title = title.split('.')[:-1]
 		print(title)
 		await ctx.send('[Music] '+f'Playing: {title}')
