@@ -58,16 +58,12 @@ class Juicy(commands.Bot):
 		await reboot_channel.send('Reboot complete !',delete_after=5)
 
 	async def verifie_loaded_data(self):
-		try:
-			if self.loaded_data != None:
-				pass
-		except AttributeError:
-			channel = self.get_channel(Consts.saves_location)
-			self.Saver = DiscordDataSaver(self,channel)
-			self.loaded_data = await self.Saver.load()
+		channel = self.get_channel(Consts.saves_location)
+		self.Saver = DiscordDataSaver(self,channel)
+		self.loaded_data = await self.Saver.load()
 
 	async def what_language(self,ctx,author_id=None,member_id=None):
-		if ctx == None and member_id != None:
+		if ctx == None or member_id != None:
 			author_id = member_id
 			guild_id = None
 		elif ctx.guild != None:
