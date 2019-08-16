@@ -16,9 +16,12 @@ class Messaging(commands.Cog):
 		message_to_send = ''
 		
 		async def filter(message):
-			await message.delete()
-			message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
-			await message.channel.send(message_to_send)
+			try:
+				await message.delete()
+				message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
+				await message.channel.send(message_to_send)
+			except discord.errors.Forbidden:
+				pass
 		
 		if message.author == self.bot.user:
 			return False
