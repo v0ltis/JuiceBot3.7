@@ -69,7 +69,7 @@ async def play(self,ctx,url):
 			if message != '':
 				await ctx.send('[Music] '+message)
 				self.music_info_per_guild[ctx.guild.id]['next_message'] = ''
-			await asyncio.sleep(2)
+			await asyncio.sleep(0.5)
 
 	#play function
 	async def playing(self,ctx,url):
