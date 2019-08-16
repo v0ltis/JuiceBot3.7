@@ -1,10 +1,11 @@
 import sys
 from subprocess import call
 import youtube_dl
+'''
 from importlib import reload
 call(sys.executable +' -m pip install --upgrade youtube_dl')#upgrading youtube dl lib to avoid music bugs
 reload(youtube_dl)
-
+'''
 from importlib import reload
 
 import discord
