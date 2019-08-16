@@ -94,5 +94,5 @@ class Messaging(commands.Cog):
 						react_with.append(y)
 			for x in react_with:
 				await message.add_reaction(emoji=Filter.reactions_numbers[x])
-	except discord.errors.Forbidden:
-		pass
+		except discord.errors.Forbidden:
+			pass
