@@ -99,6 +99,6 @@ class Juicy(commands.Bot):
 			return (0,0)
 
 Bot = Juicy(command_prefix=Consts.commands_prefix,help_command=None)
-Bot.run('TOKEN_HERE')
+Bot.run(os.environ["TOKEN_HERE"])
 
 print('Finished')
