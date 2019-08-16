@@ -2,5 +2,7 @@ discord
 asyncio
 aiohttp
 youtube-dl
+PyNaCl
 requests
 scrapy
+Pillow
