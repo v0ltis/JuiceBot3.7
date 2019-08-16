@@ -160,7 +160,7 @@ help_embed = (
 	'Prefix:':Consts.commands_prefix,
 	'help fun':'Tell you the funny commands',
 	'help management':'Tell you the server management commands',
-	'help music':'Tell you the music command'#+' ***Available soon***',
+	'help music':'Tell you the music command',#+' ***Available soon***',
 	'help support':'Tell you the commands to communicate with our team',
 	'help reaction':'Tell you the commands about reaction',
 	'news':'Tell you the last news about Juicebox',
