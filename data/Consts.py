@@ -1,4 +1,4 @@
-commands_prefix = '_'
+commands_prefix = '/'
 version = 2.0
 bot_name = 'JuiceBox'
 discord = 'https://discord.gg/Abfvn9y'
