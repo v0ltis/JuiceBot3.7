@@ -87,4 +87,5 @@ class Music_Commands_Class(commands.Cog):
 
 	@commands.command()
 	async def play(self,ctx,url):
+		await join(ctx)
 		await play_command.play(self,ctx,url)
