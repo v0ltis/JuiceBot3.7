@@ -86,7 +86,7 @@ class Music_Commands_Class(commands.Cog):
 		await self.leave(ctx)
 
 	@commands.command()
-	async def play(self,ctx,url):
+	async def play(self,ctx,*,url):
 		try:
 			await self.join(ctx)
 		except:
