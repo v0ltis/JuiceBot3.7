@@ -112,7 +112,7 @@ async def play(self,ctx,url):
 					time.sleep(1)
 				
 				title = ''.join(str(x) for x in file.split('-')[1:])
-				title = title.split('.')[:-1]
+				title = ''.join(str(x) for x in title.split('.')[:-1])
 				self.music_info_per_guild[ctx.guild.id]['next_message'] = f'Playing: {title}'
 
 				voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
@@ -134,7 +134,7 @@ async def play(self,ctx,url):
 		#print(file)
 		title = ''.join(str(x) for x in file.split('-')[1:])
 		#print(title)
-		title = title.split('.')[:-1]
+		title = ''.join(str(x) for x in title.split('.')[:-1])
 		print(title)
 		await ctx.send('[Music] '+f'Playing: {title}')
 
