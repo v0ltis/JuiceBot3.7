@@ -31,5 +31,6 @@ class Eventing(commands.Cog):
 	async def on_member_join(self,member):
 		lang_test_results = await self.bot.what_language(None,author_id=member.id)
 		channel = discord.utils.find(lambda a : type(a) == discord.TextChannel and a.name in Trad.welcome_channel, member.guild.channels)
-		await self.bot.verifie_loaded_data()
-		await channel.send(random.choice(Trad.welcome_messages[lang_test_results[1]]).format(user_name=member.id,guild_name=member.guild.name))
+		if channel != None:
+			await self.bot.verifie_loaded_data()
+			await channel.send(random.choice(Trad.welcome_messages[lang_test_results[1]]).format(user_name=member.id,guild_name=member.guild.name))
