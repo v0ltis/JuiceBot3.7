@@ -17,14 +17,14 @@ class Messaging(commands.Cog):
 			lang_test_results = await self.bot.what_language(message)
 			message_to_send = ''
 			
-			if type(message.channel) != discord.DMChannel:
-				async def filter(message):
-					await message.delete()
-					message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
-					await message.channel.send(message_to_send)
+			#if type(message.channel) != discord.DMChannel:
+			#	async def filter(message):
+			#		await message.delete()
+			#		message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
+			#		await message.channel.send(message_to_send)
 
-				if message.author == self.bot.user:
-					return False
+			#	if message.author == self.bot.user:
+			#		return False
 
 				perms = message.channel.permissions_for(message.author)
 				has_been_fitlered = False
