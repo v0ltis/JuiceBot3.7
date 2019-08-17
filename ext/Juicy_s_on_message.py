@@ -26,24 +26,24 @@ class Messaging(commands.Cog):
 			#	if message.author == self.bot.user:
 			#		return False
 
-				perms = message.channel.permissions_for(message.author)
-				has_been_fitlered = False
-				for x in Filter.fitler_FR_in:
-					if x in message.content.lower() and not x in Filter.fitler_FR_not \
-					and message.channel.permissions_for(message.author).administrator==False \
-					and message.channel.permissions_for(message.author).manage_messages==False \
-					and message.channel.permissions_for(message.author).manage_channels==False:
-						await filter(message)
-						has_been_fitlered = True
-						return False
-				for x in Filter.fitler_FR_emoji:
-					if x in message.content.lower() \
-					and message.channel.permissions_for(message.author).administrator==False \
-					and message.channel.permissions_for(message.author).manage_messages==False \
-					and message.channel.permissions_for(message.author).manage_channels==False:
-						await filter(message)
-						has_been_fitlered = True
-						return False
+			#	perms = message.channel.permissions_for(message.author)
+			#	has_been_fitlered = False
+			#	for x in Filter.fitler_FR_in:
+			#		if x in message.content.lower() and not x in Filter.fitler_FR_not \
+			#		and message.channel.permissions_for(message.author).administrator==False \
+			#		and message.channel.permissions_for(message.author).manage_messages==False \
+			#		and message.channel.permissions_for(message.author).manage_channels==False:
+			#			await filter(message)
+			#			has_been_fitlered = True
+			#			return False
+			#	for x in Filter.fitler_FR_emoji:
+			#		if x in message.content.lower() \
+			#		and message.channel.permissions_for(message.author).administrator==False \
+			#		and message.channel.permissions_for(message.author).manage_messages==False \
+			#		and message.channel.permissions_for(message.author).manage_channels==False:
+			#			await filter(message)
+			#			has_been_fitlered = True
+			#			return False
 
 			if message.guild != None:
 				try:
