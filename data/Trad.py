@@ -142,13 +142,13 @@ website = ('My house is here : {website}','Ma maison est ici : {website}')
 botadmin = ("Hey Boss, here is my code: {github}",
 	"Hey Boss, mon code se trouve ici: {github}")
 
-calc = (["That makes " + str (x) + " almost",
-        "I would say " + str (x),
-        str (x) + "," + str (z) + " normally",
+calc = (["That makes " + str(x) + " almost",
+        "I would say " + str(x),
+        str(x) + "," + str(z) + " normally",
         "Error System",
-        "It's equal to " + str (x)
-	"Aproximately " + str (x) + "!",
-        "it's exactly " + str (x) + "," + str (z)
+        "It's equal to " + str(x),
+	"Aproximately " + str(x) + "!",
+        "it's exactly " + str(x) + "," + str(z)
 	],
 	["Ça fais " + str(x) + " à peu près",
         "Je dirai " + str(x),
