@@ -6,7 +6,7 @@ from __main__ import Consts,Trad
 
 import time
 import random
-
+from random import randint
 from discord_data_saver import DiscordDataSaver
 from gif_giffy import gifsearch
 
@@ -138,7 +138,24 @@ class Commanding(commands.Cog):
 			async for x in ctx.channel.history():
 				if x.author == self.bot.user:
 					await x.delete()
-
+	
+	
+	
+	
+	@commands.command()
+	async def calc(self,ctx):
+		lang_tests_results = await self.bot.what_language(ctx)
+		x = randint(-5000, 10000)
+    		z = randint(10, 1000)
+    		mess = (Trad.calc[lang_tests_results[1]])
+		calc = await ctx.send("Calcul en cours . . .",delete_after=10)
+		ctx.channel.typing():
+		time.sleep(5)
+		await calc.edit(content=mess)
+	
+	
+	
+	
 	@commands.command()
 	async def contact(self,ctx,request,*,message):
 		lang_tests_results = await self.bot.what_language(ctx)
