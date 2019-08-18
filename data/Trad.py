@@ -142,6 +142,22 @@ website = ('My house is here : {website}','Ma maison est ici : {website}')
 botadmin = ("Hey Boss, here is my code: {github}",
 	"Hey Boss, mon code se trouve ici: {github}")
 
+calc = (["That makes " + str (x) + " almost",
+        "I would say " + str (x),
+        str (x) + "," + str (z) + " normally",
+        "Error System",
+        "It's equal to " + str (x)
+	"Aproximately " + str (x) + "!",
+        "it's exactly " + str (x) + "," + str (z)
+	],
+	["Ça fait " + str(x) + " à peut près",
+        "Je dirait " + str(x),
+        str(x) + "," + str(z) + " normalement",
+        "Error System",
+        "C'est egal à " + str(x),
+        "Aproximativement " + str(x) +" !",
+        "C'est " + str(x) + "," + str(z) + " pile !"])
+
 news = ({
 	'News':'Here are my lastest patch note:',#title/desc
 	'Patch note:':Consts.news[0][0],#field 1
@@ -265,3 +281,5 @@ help_options_embed = ({
 	})
 
 invalid_arg_help = ('Unknown argument for more help see ```{}help```'.format(Consts.commands_prefix),"Argument inconnnu pour plus d'aide consultez {}help".format(Consts.commands_prefix))
+
+
