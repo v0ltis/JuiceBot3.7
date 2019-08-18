@@ -150,11 +150,11 @@ calc = (["That makes " + str (x) + " almost",
 	"Aproximately " + str (x) + "!",
         "it's exactly " + str (x) + "," + str (z)
 	],
-	["Ça fait " + str(x) + " à peut près",
-        "Je dirait " + str(x),
+	["Ça fais " + str(x) + " à peu près",
+        "Je dirai " + str(x),
         str(x) + "," + str(z) + " normalement",
         "Error System",
-        "C'est egal à " + str(x),
+        "C'est égal à " + str(x),
         "Aproximativement " + str(x) +" !",
         "C'est " + str(x) + "," + str(z) + " pile !"])
 
