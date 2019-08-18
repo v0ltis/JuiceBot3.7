@@ -1,5 +1,8 @@
 import Consts
 
+import random
+from random import randint
+
 x = randint(-5000, 10000)
 z = randint(10, 1000)
 
