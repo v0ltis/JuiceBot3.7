@@ -145,7 +145,7 @@ class Commanding(commands.Cog):
 	@commands.command()
 	async def calc(self,ctx):
 		lang_tests_results = await self.bot.what_language(ctx)
-    		mess = (Trad.calc[lang_tests_results[1]])
+    		mess = Trad.calc[lang_tests_results[1]]
 		cal = await ctx.send("Calcul en cours . . .",delete_after=10)
 		ctx.channel.typing():
 		time.sleep(5)
