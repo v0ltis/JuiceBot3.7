@@ -67,8 +67,8 @@ class Messaging(commands.Cog):
 				for y in Trad.greetings[x]:
 					if y in message.content.lower():
 						if not message.author == self.bot.user:
-						await message.channel.send(random.choice(Trad.greetings[x]))
-						return True
+							await message.channel.send(random.choice(Trad.greetings[x]))
+							return True
 			'''
 			elif 'XD' in message.content.upper():
 				choice = random.choice(["lol",
