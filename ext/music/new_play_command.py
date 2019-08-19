@@ -129,7 +129,7 @@ async def play(self,ctx,url):
 		voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
 
 		voice.source = discord.PCMVolumeTransformer(voice.source)
-		voice.source.volume = 0.02
+		voice.source.volume = 0.05
 
 		#print(file)
 		title = ''.join(str(x) for x in file.split('-')[1:])
