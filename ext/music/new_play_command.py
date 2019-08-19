@@ -117,7 +117,7 @@ async def play(self,ctx,url):
 
 				voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
 				voice.source = discord.PCMVolumeTransformer(voice.source)
-				voice.source.volume = 0.1
+				voice.source.volume = 0.25
 				
 				if not self.music_info_per_guild[ctx.guild.id]['stoped']:
 					self.music_info_per_guild[ctx.guild.id]['download_state'][0] += 1
@@ -129,7 +129,7 @@ async def play(self,ctx,url):
 		voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
 
 		voice.source = discord.PCMVolumeTransformer(voice.source)
-		voice.source.volume = 0.1
+		voice.source.volume = 0.25
 
 		#print(file)
 		title = ''.join(str(x) for x in file.split('-')[1:])
