@@ -7,7 +7,7 @@ x = randint(-5000, 10000)
 z = randint(10, 1000)
 
 
-greetings = (['hello ','hi ','hi,','hello,'],['bonjour ','salut ','salut'],['hey '])
+greetings = (['hello ','hi ','hi,','hello,'],['bonjour ','salut ','salut'],['hey'])
 #greetings = ((['hello','hey','hi'],['greetings']),[,'bonjour','salut','hey',],['salutation'])
 
 do_you_call_me = ("Do you talk about me ?","On parle de moi ?")
