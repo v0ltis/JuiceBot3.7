@@ -78,9 +78,9 @@ class Messaging(commands.Cog):
 				return True
 			'''
 
-			if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
-				await message.channel.send("Hey !")
-				return True
+			#if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
+			#	await message.channel.send("Hey !")
+			#	return True
 			
 			elif "GG" in message.content.upper() or "GJ" in message.content.upper() \
 				or "GOOD GAME" in message.content.upper() or "GOOD JOB" in message.content.upper():
