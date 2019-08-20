@@ -17,33 +17,35 @@ class Messaging(commands.Cog):
 			lang_test_results = await self.bot.what_language(message)
 			message_to_send = ''
 			
-			#if type(message.channel) != discord.DMChannel:
-			#	async def filter(message):
-			#		await message.delete()
-			#		message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
-			#		await message.channel.send(message_to_send)
+			if type(message.channel) != discord.DMChannel:
+				async def filter(message):
+					patching_filter = self.bot.get_channel(Consts.patching_filter)
+					await patching_filter.send(message.content)
+					await message.delete()
+					message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
+					await message.channel.send(message_to_send)
 
-			#	if message.author == self.bot.user:
-			#		return False
+				if message.author == self.bot.user:
+					return False
 
-			#	perms = message.channel.permissions_for(message.author)
-			#	has_been_fitlered = False
-			#	for x in Filter.fitler_FR_in:
-			#		if x in message.content.lower() and not x in Filter.fitler_FR_not \
-			#		and message.channel.permissions_for(message.author).administrator==False \
-			#		and message.channel.permissions_for(message.author).manage_messages==False \
-			#		and message.channel.permissions_for(message.author).manage_channels==False:
-			#			await filter(message)
-			#			has_been_fitlered = True
-			#			return False
-			#	for x in Filter.fitler_FR_emoji:
-			#		if x in message.content.lower() \
-			#		and message.channel.permissions_for(message.author).administrator==False \
-			#		and message.channel.permissions_for(message.author).manage_messages==False \
-			#		and message.channel.permissions_for(message.author).manage_channels==False:
-			#			await filter(message)
-			#			has_been_fitlered = True
-			#			return False
+				perms = message.channel.permissions_for(message.author)
+				has_been_fitlered = False
+				for x in Filter.fitler_FR_in:
+					if x in message.content.lower() and not x in Filter.fitler_FR_not \
+					and message.channel.permissions_for(message.author).administrator==False \
+					and message.channel.permissions_for(message.author).manage_messages==False \
+					and message.channel.permissions_for(message.author).manage_channels==False:
+						await filter(message)
+						has_been_fitlered = True
+						return False
+				for x in Filter.fitler_FR_emoji:
+					if x in message.content.lower() \
+					and message.channel.permissions_for(message.author).administrator==False \
+					and message.channel.permissions_for(message.author).manage_messages==False \
+					and message.channel.permissions_for(message.author).manage_channels==False:
+						await filter(message)
+						has_been_fitlered = True
+						return False
 
 			if message.guild != None:
 				try:
@@ -66,9 +68,8 @@ class Messaging(commands.Cog):
 			for x in range(len(Trad.greetings)):
 				for y in Trad.greetings[x]:
 					if y in message.content.lower():
-						if not message.author == self.bot.user:
-							await message.channel.send(random.choice(Trad.greetings[x]))
-							return True
+						await message.channel.send(random.choice(Trad.greetings[x]))
+						return True
 			'''
 			elif 'XD' in message.content.upper():
 				choice = random.choice(["lol",
@@ -79,11 +80,11 @@ class Messaging(commands.Cog):
 				return True
 			'''
 
-			#if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
-			#	await message.channel.send("Hey !")
-			#	return True
+			if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
+				await message.channel.send("Hey !")
+				return True
 			
-			if "GG" in message.content.upper() or "GJ" in message.content.upper() \
+			elif "GG" in message.content.upper() or "GJ" in message.content.upper() \
 				or "GOOD GAME" in message.content.upper() or "GOOD JOB" in message.content.upper():
 				await message.channel.send(":clap: :clap: :clap:")				
 				return True

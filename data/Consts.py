@@ -29,6 +29,8 @@ tester_admin = 402896241429577729
 
 bot_messages = 603218967812767757
 
+patching_filter = 613306094185349121
+
 Juicy_author_as_embed = {bot_name:"https://discordemoji.com/assets/emoji/JuiceBox.png"}
 
 error_messages_channel = 602459257375555603
