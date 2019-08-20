@@ -7,7 +7,7 @@ fitler_FR_in = ['va te faire','va te faire voir','va te faire foutre','va te fai
 'tafiole','tarlouze','ptn','fk ','fuck',' fk']
 
 fitler_FR_emoji = ['🖕',':middle_finger:']
-fitler_FR_not = ['tapette à ','connerie']
+fitler_FR_not = ['tapette à ','connerie','hold the fuck up']
 fitler_FR_and = []
 fitler_FR_or = []
 
