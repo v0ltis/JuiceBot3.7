@@ -32,6 +32,7 @@ class Messaging(commands.Cog):
 				has_been_fitlered = False
 				for x in Filter.fitler_FR_in:
 					if x in message.content.lower() and not x in Filter.fitler_FR_not \
+					and not "'{}'".format(x) in message.content.lower() and not '"{}"'.format(x) in message.content.lower()\
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
@@ -40,6 +41,14 @@ class Messaging(commands.Cog):
 						return False
 				for x in Filter.fitler_FR_emoji:
 					if x in message.content.lower() \
+					and message.channel.permissions_for(message.author).administrator==False \
+					and message.channel.permissions_for(message.author).manage_messages==False \
+					and message.channel.permissions_for(message.author).manage_channels==False:
+						await filter(message)
+						has_been_fitlered = True
+						return False
+				for x in Filter.filter_FR_and:
+					if x[0] in message.content.lower() and x[1] in message.content.lower() \
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
