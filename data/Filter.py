@@ -4,11 +4,12 @@ fitler_FR_in = ['va te faire','va te faire voir','va te faire foutre','va te fai
 'ta guele','ta geule','garce',"ta race",'fumier','gland','kikou','noob','tapette','mauviette','merdeux',
 'michto','minus','moins-que-rien','moins que rien','mollusque','naze','sa mère','sac à merde',
 "pédé","plouc",'salop','zguègue','trou de cul',"trou d'uc",'trou du cul',"trou de bal","trouduc",
-'tafiole','tarlouze','ptn','fk ','fuck',' fk']
+'tafiole','tarlouze','ptn','fuck',]
 
 fitler_FR_emoji = ['🖕',':middle_finger:']
 fitler_FR_not = ['tapette à ','connerie','hold the fuck up','content','confirm']
-fitler_FR_and = [('pd ',' pd'),('con ',' con')]
+fitler_FR_and = [('pd ',' pd'),('con ',' con'),(' fk','fk '),('ptn ',' ptn')]
+filter_FR_message_equal = ['pd','con','fk','ptn']
 fitler_FR_or = []
 
 #https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Insultes_en_fran%C3%A7ais
