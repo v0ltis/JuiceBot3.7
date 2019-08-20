@@ -68,7 +68,7 @@ class Messaging(commands.Cog):
 			for x in range(len(Trad.greetings)):
 				for y in Trad.greetings[x]:
 					if y in message.content.lower():
-						await message.channel.send(random.choice(Trad.greetings[x]))
+						await message.channel.send(random.choice(Trad.greetings_to_send[x]))
 						return True
 			'''
 			elif 'XD' in message.content.upper():

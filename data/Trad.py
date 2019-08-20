@@ -8,6 +8,7 @@ z = randint(10, 1000)
 
 
 greetings = (['hello ','hi ','hi,','hello,'],['bonjour ','salut ','salut'],['hey'])
+greetings_to_send = (['Hello','Hi'],['Bonjour','Salut'],['Hey'])
 #greetings = ((['hello','hey','hi'],['greetings']),[,'bonjour','salut','hey',],['salutation'])
 
 do_you_call_me = ("Do you talk about me ?","On parle de moi ?")
