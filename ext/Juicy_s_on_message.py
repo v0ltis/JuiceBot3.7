@@ -16,10 +16,10 @@ class Messaging(commands.Cog):
 			await self.bot.verifie_loaded_data()
 			lang_test_results = await self.bot.what_language(message)
 			message_to_send = ''
-			
+			patching_filter = self.bot.get_channel(Consts.patching_filter)
+
 			if type(message.channel) != discord.DMChannel:
 				async def filter(message):
-					patching_filter = self.bot.get_channel(Consts.patching_filter)
 					await patching_filter.send(message.content)
 					await message.delete()
 					message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
@@ -36,6 +36,7 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
+						await patching_filter.send(x)
 						await filter(message)
 						has_been_fitlered = True
 						return False
@@ -47,11 +48,12 @@ class Messaging(commands.Cog):
 						await filter(message)
 						has_been_fitlered = True
 						return False
-				for x in Filter.filter_FR_and:
+				for x in Filter.fitler_FR_and:
 					if x[0] in message.content.lower() and x[1] in message.content.lower() \
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
+						await patching_filter.send(x)
 						await filter(message)
 						has_been_fitlered = True
 						return False
