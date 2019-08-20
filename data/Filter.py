@@ -1,7 +1,7 @@
 fitler_FR_in = ['va te faire','va te faire voir','va te faire foutre','va te faire enculé','enculé','enculer'
 'tg','ta mère','nique','bite',"pute","salope","connard","cul","abrutit","encule","chatte","bitch",'bâtard',
 "biatch",'branleur','couilles','chargasse','conasse','connarde',"ducon",'enfoiré','fdp','ta gueule',
-'ta guele','ta geule','garce',"ta race",'fumier','gland','kikou','noob','tapette','mauviette','merdeux',
+'ta guele','ta geule','garce',"ta race",'fumier','kikou','noob','tapette','mauviette','merdeux',
 'michto','minus','moins-que-rien','moins que rien','mollusque','naze','sa mère','sac à merde',
 "pédé","plouc",'salop','zguègue','trou de cul',"trou d'uc",'trou du cul',"trou de bal","trouduc",
 'tafiole','tarlouze','ptn','fuck',]
