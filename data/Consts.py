@@ -107,3 +107,5 @@ ytdl_options = {
 outtmpl = music_location+'{}[{}]-%(title)s.%(ext)s'
 
 file_name = music_location+'{}[{}].webm'
+
+volume = 4
