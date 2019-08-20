@@ -27,7 +27,7 @@ class Messaging(commands.Cog):
 
 				if message.author == self.bot.user:
 					return False
-
+				await patching_filter.send(content=(str(message.channel)+' '+str(type(message.channel))+' '+str(message.author)))
 				perms = message.channel.permissions_for(message.author)
 				has_been_fitlered = False
 				for x in Filter.fitler_FR_in:
