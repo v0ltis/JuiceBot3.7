@@ -35,7 +35,7 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
-						await patching_filter.send(x)
+						#await patching_filter.send(x)
 						await filter(message)
 						has_been_fitlered = True
 						return False
@@ -52,15 +52,15 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
-						await patching_filter.send(x)
+						#await patching_filter.send(x)
 						await filter(message)
 						has_been_fitlered = True
 						return False
-				#if message.content.lower() in Filter.filter_FR_message_equal:
+				if message.content.lower() in Filter.filter_FR_message_equal:
 				#	await patching_filter.send(x)
-				#	await filter(message)
-				#	has_been_fitlered = True
-				#	return False
+					await filter(message)
+					has_been_fitlered = True
+					return False
 
 			if message.guild != None:
 				try:
