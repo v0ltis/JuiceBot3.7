@@ -20,7 +20,7 @@ class Messaging(commands.Cog):
 
 			if type(message.channel) != discord.DMChannel:
 				async def filter(message):
-					await patching_filter.send(message.content)
+					#await patching_filter.send(message.content)
 					await message.delete()
 					message_to_send = '<@{}>\n :rage: || {} ||'.format(message.author.id,message.content)
 					await message.channel.send(message_to_send)
