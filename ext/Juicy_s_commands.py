@@ -125,11 +125,17 @@ class Commanding(commands.Cog):
 	@commands.command(name='8ball')
 	async def ball(self,ctx,*,args):
 		async with ctx.channel.typing():
+			if len(message)/10 <= 15:
+				temps = len(message)/10
+			else:
+				temps = 15
+				
+				
 			lang_tests_results = await self.bot.what_language(ctx)
 
 			message = random.choice(Trad.ball_aswer[lang_tests_results[1]])
-
-			await asyncio.sleep(len(message)/10)
+			
+			await asyncio.sleep(int(temps))
 			await ctx.send(content=message)
 	
 	@commands.command()
