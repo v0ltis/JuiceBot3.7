@@ -93,7 +93,7 @@ from __main__ import Consts,Trad,Filter
 				if choice != None:
 					await message.channel.send(choice)
 				return True
-			''''''
+			'''
 
 			if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
 				await message.channel.send("Hey !")
@@ -112,6 +112,6 @@ from __main__ import Consts,Trad,Filter
 			for x in react_with:
 				await message.add_reaction(emoji=Filter.reactions_numbers[x])
 		except discord.errors.Forbidden:
-			pass''' 
+			pass
 		#except AttributeError:
 			#await patching_filter.send(content=(str(message.channel)+' '+str(type(message.channel))+' '+str(message.author)))
