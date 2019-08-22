@@ -5,7 +5,7 @@ import random
 
 from __main__ import Consts,Trad,Filter
 
-'''class Messaging(commands.Cog):
+class Messaging(commands.Cog):
 	def __init__(self,bot):
 		self.bot = bot
 	
@@ -18,7 +18,7 @@ from __main__ import Consts,Trad,Filter
 			message_to_send = ''
 			patching_filter = self.bot.get_channel(Consts.patching_filter)
 
-			if type(message.channel) != discord.DMChannel:
+'''			if type(message.channel) != discord.DMChannel:
 				async def filter(message):
 					await patching_filter.send(message.content)
 					await message.delete()
