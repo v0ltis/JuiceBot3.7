@@ -5,7 +5,7 @@ import random
 
 from __main__ import Consts,Trad,Filter
 
-class Messaging(commands.Cog):
+'''class Messaging(commands.Cog):
 	def __init__(self,bot):
 		self.bot = bot
 	
@@ -36,7 +36,7 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
 						#await patching_filter.send(x)
-						await filter(message)
+						#await filter(message)
 						has_been_fitlered = True
 						return False
 				for x in Filter.fitler_FR_emoji:
@@ -44,7 +44,7 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).administrator==False \
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
-						await filter(message)
+						#await filter(message)
 						has_been_fitlered = True
 						return False
 				for x in Filter.fitler_FR_and:
@@ -53,12 +53,12 @@ class Messaging(commands.Cog):
 					and message.channel.permissions_for(message.author).manage_messages==False \
 					and message.channel.permissions_for(message.author).manage_channels==False:
 						#await patching_filter.send(x)
-						await filter(message)
+						#await filter(message)
 						has_been_fitlered = True
 						return False
 				if message.content.lower() in Filter.filter_FR_message_equal:
 				#	await patching_filter.send(x)
-					await filter(message)
+				#	await filter(message)
 					has_been_fitlered = True
 					return False
 
@@ -85,7 +85,7 @@ class Messaging(commands.Cog):
 					if y in message.content.lower():
 						await message.channel.send(random.choice(Trad.greetings_to_send[x]))
 						return True
-			'''
+			''''''
 			elif 'XD' in message.content.upper():
 				choice = random.choice(["lol",
 				None,
@@ -93,7 +93,7 @@ class Messaging(commands.Cog):
 				if choice != None:
 					await message.channel.send(choice)
 				return True
-			'''
+			''''''
 
 			if "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
 				await message.channel.send("Hey !")
@@ -112,6 +112,6 @@ class Messaging(commands.Cog):
 			for x in react_with:
 				await message.add_reaction(emoji=Filter.reactions_numbers[x])
 		except discord.errors.Forbidden:
-			pass
-		except AttributeError:
-			await patching_filter.send(content=(str(message.channel)+' '+str(type(message.channel))+' '+str(message.author)))
+			pass''' 
+		#except AttributeError:
+			#await patching_filter.send(content=(str(message.channel)+' '+str(type(message.channel))+' '+str(message.author)))
