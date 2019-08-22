@@ -17,8 +17,8 @@ class Messaging(commands.Cog):
 			lang_test_results = await self.bot.what_language(message)
 			message_to_send = ''
 			patching_filter = self.bot.get_channel(Consts.patching_filter)
-
-'''			if type(message.channel) != discord.DMChannel:
+			'''
+			if type(message.channel) != discord.DMChannel:
 				async def filter(message):
 					await patching_filter.send(message.content)
 					await message.delete()
@@ -85,7 +85,7 @@ class Messaging(commands.Cog):
 					if y in message.content.lower():
 						await message.channel.send(random.choice(Trad.greetings_to_send[x]))
 						return True
-			''''''
+			
 			elif 'XD' in message.content.upper():
 				choice = random.choice(["lol",
 				None,
