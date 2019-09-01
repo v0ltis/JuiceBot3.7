@@ -6,3 +6,4 @@ PyNaCl
 requests
 scrapy
 Pillow
+ffmpeg
