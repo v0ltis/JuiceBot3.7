@@ -99,7 +99,7 @@ class Messaging(commands.Cog):
 				await message.channel.send("Hey !")
 				return True
 			
-			elif " GG " in message.content.upper() or " GJ " in message.content.upper() \
+			elif "GG " in message.content.upper() or "GJ " in message.content.upper() \
 				or " GOOD GAME " in message.content.upper() or " GOOD JOB " in message.content.upper():
 				await message.channel.send(":clap: :clap: :clap:")				
 				return True
