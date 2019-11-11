@@ -1,4 +1,3 @@
-ON VA TOUT FAIRE CRASH
 import sys,os
 from subprocess import call
 import youtube_dl
