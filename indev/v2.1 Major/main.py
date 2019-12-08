@@ -363,4 +363,4 @@ async def on_message(message):
 		          file = open("errors.txt","a")
 		          file.write(str(e) +" //\\\\ " + message.content + "\n")
 
-client.run("NTQ4ODkwMzg3OTUxOTEwOTIy.XevYew.uIHQqQmOVgTaFvNAgxh-1BU_FMw")
+client.run(TOKEN)
