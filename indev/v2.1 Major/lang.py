@@ -1,4 +1,0 @@
-class trad():
-    ball = {"fr":"oui non :person_shrugging_tone1: Je§ne§sais§pas Pourquois§tu§pose§la§question§? Sans§doutes Nan!","en":"yes no :person_shrugging_tone1: nope I§don't§know why§are§you§asking§this§question?"}
-    mod_en = ('Here is the commands list :',"Server management commands:", "Here are the server mannagment commands :\n ``{}report @Naughty_User motive`` in a text channel for report him in #report","Options commands:","Send ``{}options`` in a channel for get all of options commands !")
-    mod_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !")
