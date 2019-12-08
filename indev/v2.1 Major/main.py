@@ -3,7 +3,7 @@ from discord.ext.commands import Bot
 import os
 import json
 import time
-from lang import trad
+from ext import trad,data
 import random
 
 client = Bot(command_prefix="/")
@@ -268,7 +268,9 @@ async def on_message(message):
 
 
 			elif message.content.lower().startswith(prefix + "8ball"):
-				bal = random.choice(trad.ball[langue].split())
+				async with message.channel.typing():
+				      bal = random.choice(trad.ball[langue].split())
+				      time.sleep(len(bal)/8)
 				await message.channel.send(bal.replace("§"," "))
 
 			elif "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
@@ -279,19 +281,86 @@ async def on_message(message):
 
 			elif message.content.lower().startswith(prefix + "help"):
 				if langue == "fr":
-				   need = trad.mod_fr
+				   need = trad.emb_fr
 				elif langue == "en":
-				     need = trad.mod_en
+				     need = trad.emb_en
 
 				help = discord.Embed(title="Help",description=need[0])
 				help.add_field(name = need[1],value = need[2].format(prefix), inline=False)
 				help.add_field(name = need[3],value = need[4].format(prefix), inline=False)
+				help.add_field(name= need[5],value = need[6].format(prefix,prefix,prefix,prefix,prefix), inline=False)
+				help.set_footer(text = message.author.name,icon_url=message.author.avatar_url)
 				await message.channel.send(embed=help)
+
+
+
+			elif message.content.upper().startswith(prefix + "GIF"):
+			    gif = random.choice(data.gifs)
+			    await message.channel.send(gif)
+
+			elif message.content.upper().startswith(prefix + "CALC"):
+			    virg = random.randint(1,7)
+			    x = random.randint(int(-999),int(999999))
+			    if virg == 1:
+			        y = random.randint(0,9999999)
+			        x = str(x) + "," + str(y)
+
+			    if langue == "fr":
+			       phrase = random.choice(trad.calc_fr).format(x)
+			    elif langue == "en":
+			       phrase = random.choice(trad.calc_en).format(x)
+			    await message.channel.send(phrase)
+
+
+			elif message.content.lower().startswith(prefix + "news"):
+			     await message.channel.send(trad.news[langue])
+
+
+			elif message.content.lower().startswith(prefix + "info"):
+			    info_mention_user = None
+			    if langue == 'fr':
+			       info = trad.info_fr
+			    elif langue == "en":
+			       info = trad.info_en
+
+			    if message.mentions != []:
+			       info_mention_user = message.mentions[0]
+			    else:
+			       info_mention_user = message.author
+			    info_mention=discord.Embed(color=0x700127)
+			    info_mention.set_author(name="JuiceBox", icon_url="https://juicebot.github.io/assets/images/juicebox-112x112.png")
+			    info_mention.set_thumbnail(url=info_mention_user.avatar_url)
+			    info_mention.add_field(name=info[0],value=info_mention_user, inline=False)
+			    info_mention.add_field(name=info[1], value=info_mention_user.name + " / " + str(info_mention_user.id), inline=False)
+			    info_mention.add_field(name=info[2], value=info_mention_user.joined_at, inline=False)
+			    info_mention.add_field(name=info[3], value=info_mention_user.created_at, inline=False)
+			    list_user_roles = []
+
+			    r = 0
+			    for x in info_mention_user.roles:
+			       if r == 0:
+			           list_user_roles.append(x.name)
+			           r += 1
+			       else:
+			           list_user_roles.append("<@&{}>".format(x.id))
+
+            ####################################################################
+
+			    list_user_roles = str(list_user_roles).replace("'"," ")
+			    list_user_roles = str(list_user_roles).replace("[","")
+			    list_user_roles = str(list_user_roles).replace("]","")
+
+			    info_mention.add_field(name=info[4], value=list_user_roles, inline=False)
+
+			    info_mention.set_footer(text=message.author)
+
+			    await message.channel.send(embed=info_mention)
+
+
 
 		except Exception as e:
 		          print(e)
 		          file = open("errors.txt","a")
-		          file.write(str(e) + "/n")
+		          file.write(str(e) +" //\\\\ " + message.content + "\n")
 
-client.run(TOKEN)
-#opt = file param open
+client.run("NTQ4ODkwMzg3OTUxOTEwOTIy.XevYew.uIHQqQmOVgTaFvNAgxh-1BU_FMw")
