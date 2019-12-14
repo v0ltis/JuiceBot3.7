@@ -42,6 +42,22 @@ class trad():
     info_fr = ("Voici les infos de :","Pseudo/ID","Sur ce serveur depuis","Datte de creation du compte","Avec les roles:")
 
 
+    repo_fr = ("Signalement de :","Signalé par:","Raison \:" ,"Signialé à:")
+    repo_en = ("Reported by :","Reported user :","Reason \:","Reported at:")
+
+    NoFoudChanRepo = {"fr":"Je n'ai pas pu trouver de channel nommé #report, envoie du signalement annulé !","en":"Could not find any channel named #report, report cancelled !"}
+
+    err_repo = {"en":"An error occured! Check than you ping someone in you'r message, or put a reason ! \n Command : ``{}report [ping(s)] [reason]``","fr":"Une erreure est survenue ! Verifiez bien que vous avez mentioné des utilisateurs, ou mis une raison ! \n syntaxe : ``{}report [mention(s)] [raison]``"}
+    err = {"en":"Sorry, an error occured: \ n Error: `` {} `` \ n Command: ``{}`` .","fr":"Désolé, une erreure est survenue ! \n Erreure : {} \n Commande : ``{}`` ."}
+
+    ticket = {"fr":"Votre ticket a été envoyé avec succès!\nUn membre du staff vous demandera peut-etre en ami pour pouvoir vous envoyer un message! Verifiez vos demandes :wink:","en":"Your ticket has been sent successfully! \n A staff member may ask you as a friend to send you a message! Check your requests :wink:"}
+
+    help_1 = {"fr":"Voici mon site: https://juicebot.github.io \net voici mon serveur discord : https://discordapp.com/invite/Abfvn9y ","en":"Hey, here is my website : (frensh only) https://juicebot.github.io \nand here is my discord server : https://discordapp.com/invite/Abfvn9y"}
+
+    emo = {"fr":"Je n'ai pas réussi a ajouter la réaction ``{}`` ! Veuillez verifier l'emoji et reessayer. \n Il se peut que je n'ai pas les permissions pour ajouter cette reaction !","en":"I did not manage to add the reaction ``{}`` Please check the emoji and try again. \n I may not have the permissions to add this reaction!"}
+
+
+
 class data():
     gifs = ["https://giphy.com/gifs/AuIvUrZpzBl04",
     			"https://giphy.com/gifs/hello-hey-big-brother-l0MYBbEvqqi1kfuyA",
@@ -89,3 +105,23 @@ class data():
     file_name = music_location+'{}[{}].webm'
 
     volume = 4
+
+
+
+
+class opt_trad():
+
+    need_ID = {"fr":"Veuillez precisez un id !","en":"Please specify an id!"}
+
+    err = {"fr":"Une erreure est survenue","en":"An error occurred"}
+
+
+    del_id = {"fr":"l'id ``{}`` à corectement été suprimé !","en":"The id {} was suscessfuly deleted"}
+
+    now_id = {'fr':"Voicis les ID des admins du serveur : ``{}``","en":"Here is server admin's ID : {}"}
+
+    no_id_admin{"fr":"Cet utilisateur n'est pas stocké en temps qu'admin !","en":"This user is not an admin !"}
+
+    id_is_admin = {"fr":"Vous ne pouvez pas retirer les droit du propriétaire du serveur","en":"You cannot take away the owner's rights from the server"}
+
+    alr_admin = {"fr":"","en":}
