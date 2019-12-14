@@ -138,12 +138,7 @@ async def on_message(message):
 
 			if message.content.upper().startswith(str(opt.prefix) + "OPTIONS"):
 				if not message.content[8:]:
-					await message.channel.send("Choisisez : \n\
-                	**__get :__** ``prefix/admins/langue`` \n\
-                	**__set :__** ``prefix/langue [value]`` \n\
-                	**__add :__** ``admins [value]`` \n\
-                	**__del :__** ``admins [value]`` \n\
-                	**__reset :__** ``prefix/admins/langue``")
+					await message.channel.send(opt_trad.help[langue])
 
 
 
@@ -153,16 +148,16 @@ async def on_message(message):
 				elif message.content.upper()[9:12] == "GET":
 
 					if message.content.upper()[13:] == "PREFIX":
-						await message.channel.send("Le prefix est :``" + opt.prefix + "``")
+						await message.channel.send(opt_trad.now_prefix[langue].format(opt.prefix))
 
 					elif message.content.upper()[13:] == "ADMINS":
-						await message.channel.send("Les IDs des admins sont :``" + opt.admin + "``")
+						await message.channel.send(opt_trad.now_id[langue].format(opt.admin))
 
-					elif message.content.upper()[13:] == "LANGUE":
-						await message.channel.send("La langue choisie est: ``" + opt.langue + "``")
+					elif message.content.upper()[15:] == "LANGUAGE":
+						await message.channel.send(opt_trad.lang.format(opt.langue))
 
 
-					else : await message.channel.send("Syntaxe : ``" + str(opt.prefix) + "options get [prefix/admins/langue]``" )
+					else : await message.channel.send(syn_err )
 
         #
         #RESET
@@ -172,17 +167,17 @@ async def on_message(message):
 
 					if message.content.upper()[15:] == "PREFIX":
 						set_opt(message.guild.id,"prefix","/")
-						await message.channel.send("Le prefix est désormais ``" + str(set_opt.new) + "``")
+						await message.channel.send(opt_trad.now_prefix[langue].format(str(set_opt.new)))
 
 					elif message.content.upper()[15:] == "ADMINS":
 						set_opt(message.guild.id,"admin",message.guild.owner.id)
-						await message.channel.send("Les IDs des admins sont désormais :" + str(set_opt.new))
+						await message.channel.send(opt_trad.admin_reset[langue].format(str(set_opt.new)))
 
-					elif message.content.upper()[15:] == "LANGUE":
+					elif message.content.upper()[17:] == "LANGUAGE":
 						set_opt(message.guild.id,"langue","en")
-						await message.channel.send("La langue choisie est désormais: " + set_opt.new)
+						await message.channel.send("The selected language is now:  " + set_opt.new)
 					else :
-						await message.channel.send("Syntaxe : ``" + str(opt.prefix) + "options get [prefix/admins/langue]``" )
+						await message.channel.send(opt_trad.syn_err[langue].format(prefix, "reset"))
 
 
         #
@@ -194,9 +189,9 @@ async def on_message(message):
 					if message.content.upper()[13:19] == "PREFIX":
 						if message.content[20:21]:
 							set_opt(message.guild.id,"prefix",message.content[20:21])
-							await message.channel.send("Le prefix est désormais `` " + set_opt.new + " ``")
+							await message.channel.send(opt_trad.now_prefix[langue].format(set_opt.new))
 						else:
-							await message.channel.send("Veuillez preciser un carractère pour le prefix (Ex : ``/``,``>``,``!``)")
+							await message.channel.send(opt_trad.pref_propos[langue])
 
 
 					elif message.content.upper()[13:21] == "LANGUAGE":
@@ -210,10 +205,10 @@ async def on_message(message):
 								await message.channel.send("La langue choisie est désormais: " + lang)
 							elif message.content[22:24] == "en":
 									lang = "``English (en)``"
-									await message.channel.send("La langue choisie est désormais: " + lang)
+									await message.channel.send("the language is now: " + lang)
 
 							else:
-								await message.channel.send("Veuillez preciser une langue valide (Ex : ``fr``,``en``)")
+								await message.channel.send(opt_trad.lang_propos[langue])
 
 
         #
@@ -224,9 +219,9 @@ async def on_message(message):
 						id = message.content.upper()[19:37]
 						add_opt(message.guild.id,"admin",id)
 						if add_opt.already:
-							await message.channel.send("Cette personne est deja admin !")
+							await message.channel.send(opt_trad.alr_admin[lanu])
 						else:
-							await message.channel.send("l'id ``" + id + "`` à corectement été ajouté !")
+							await message.channel.send(opt_trad.add_id[langue].format(id))
 							await message.channel.send(opt_trad.now_id[langue].format(add_opt.new))
 
 
@@ -446,4 +441,4 @@ async def on_message(message):
 		          file.write(str(e) + "\n")
 		          await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
 
-client.run(TOKEN)
+client.run("TOKEN")
