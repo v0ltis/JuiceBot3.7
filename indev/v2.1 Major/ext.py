@@ -5,14 +5,14 @@ class trad():
 
 
 
-    emb_en = ('Here is the commands list :',"Server management commands:", "Here are the server mannagment commands :\n ``{}report @Naughty_User motive`` in a text channel for report him in #report","Options commands:","Send ``{}options`` in a channel for get all of options commands !",'Fun commands:','Here is fun commands: \n ``{}say [text]``: Make say you\'r message, and delete it if you are admin. \n ``{}gif`` : Send a random GIF, if he is marked like "Spoiler", he could be offensive. \n ``{}memeaudio``: Play a random audio-meme in a vocal channel. Only in frensh \n ``{}info``:Send informations about a guild member.... or yourself ! \n ``{}8ball`` : Answer your questions with his crystal ball,but he is sometimes very indecisive')
+    emb_en = ('Here is the commands list :',"Server management commands:", "Here are the server mannagment commands :\n ``{}report @Naughty_User motive`` in a text channel for report him in #report","Options commands:","Send ``{}options`` in a channel for get all of options commands !",'Fun commands:','Here is fun commands: \n ``{}say [text]``: Make say you\'r message, and delete it if you are admin. \n ``{}gif`` : Send a random GIF, if he is marked like "Spoiler", he could be offensive. \n ``{}info``: Send informations about a guild member.... or yourself ! \n ``{}8ball``: Answer your questions with his crystal ball,but he is sometimes very indecisive \n ``{}calc``: Allows you to calculate, large numbers! After that it’s a bit of a joke ... \n ``{} bin``: 01010100 01110010 01100001 01101110 01110011 01101100 01100001 01110100 01100101 00100000 01111001 01101111 01110101 01110010 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01101001 01101110 01110100 01101111 00100000 01100010 01101001 01101110 01100001 01110010 01111001')
 
 
 
 
 
 
-    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}say [texte]`` Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif`` : Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}memeaudio``: Joue un meme audio aléatoire dans un salon vocal \n ``{}info`` :Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball`` : Répond à vos questions après un temps de réflexion, pour sa boule de crystal')
+    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}say [texte]``: Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif``: Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}info``: Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball``: Répond à vos questions après un temps de réflexion, pour sa boule de crystal. \n ``{}calc``:  Vous permet de calculer, de grands nombres ! Apres c\'est un peu buggé :/ \n ``{}bin``: 01010100 01110010 01100001 01100100 01110101 01101001 01110100 00100000 01110110 01101111 01110011 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01100101 01101110 00100000 01100010 01101001 01101110 01100001 01101001 01110010 01100101')
 
 
     calc_en = ["That makes almost {}",
@@ -111,6 +111,21 @@ class data():
 
 class opt_trad():
 
+    help = {'fr':"Choisisez : \n\
+    **__get :__** ``prefix/admins/language`` \n\
+    **__set :__** ``prefix/language [value]`` \n\
+    **__add :__** ``admins [value]`` \n\
+    **__del :__** ``admins [value]`` \n\
+    **__reset :__** ``prefix/admins/language``",
+    "en":
+    "Make a choice : \n\
+    **__get :__** ``prefix/admins/language`` \n\
+    **__set :__** ``prefix/language [value]`` \n\
+    **__add :__** ``admins [value]`` \n\
+    **__del :__** ``admins [value]`` \n\
+    **__reset :__** ``prefix/admins/language``"}
+
+
     need_ID = {"fr":"Veuillez precisez un id !","en":"Please specify an id!"}
 
     err = {"fr":"Une erreure est survenue","en":"An error occurred"}
@@ -118,10 +133,30 @@ class opt_trad():
 
     del_id = {"fr":"l'id ``{}`` à corectement été suprimé !","en":"The id {} was suscessfuly deleted"}
 
+    add_id = {"fr":"l'id ``{}`` à corectement été ajouté !","en":"The id {} was suscessfuly added"}
+
     now_id = {'fr':"Voicis les ID des admins du serveur : ``{}``","en":"Here is server admin's ID : {}"}
 
-    no_id_admin{"fr":"Cet utilisateur n'est pas stocké en temps qu'admin !","en":"This user is not an admin !"}
+    no_id_admin = {"fr":"Cet utilisateur n'est pas stocké en temps qu'admin !","en":"This user is not an admin !"}
 
     id_is_admin = {"fr":"Vous ne pouvez pas retirer les droit du propriétaire du serveur","en":"You cannot take away the owner's rights from the server"}
 
-    alr_admin = {"fr":"","en":}
+    alr_admin = {"fr":"Cet utilisateur est deja administrateur !","en":"This user is already administrator !"}
+
+    admin_reset = {"fr":"Les IDs des admins sont désormais : ``{}``","en":"ID's admins are now : ``{}``"}
+
+
+    lang_propos = {"fr":"Veuillez preciser une langue valide (Ex : ``fr``,``en``)","en":"Please sezlect a valid language (Ex : ``fr``,``en``)"}
+
+
+    pref_propos = {"fr":"Veuillez preciser un carractère pour le prefix (Ex : ``/``,``>``,``!``)","en":"Please precise a prefix (Ex : ``/``,``>``,``!``)"}
+
+
+    now_prefix = {"fr":"Le prefix est ``{}``","en":"The prefix is ``{}``"}
+
+    syn_err = {"fr":"Syntaxe : ``{}options {} [prefix/admins/langue]``","en":"Syntax: ``{}options {} [prefix / admins / language]``"}
+
+
+
+
+    lang = {"fr":"La langue est {}","en":"The language is {}"}
