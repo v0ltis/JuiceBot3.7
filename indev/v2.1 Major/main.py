@@ -1,9 +1,10 @@
 import discord
+from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 import os
 import json
 import time
-from ext import trad,data
+from ext import trad,data,opt_trad
 import random
 
 client = Bot(command_prefix="/")
@@ -120,6 +121,7 @@ def opt(guild,owner):
 
 @client.event
 async def on_message(message):
+
 	if message.author == client.user or message.channel.type == "private":
 		pass
 
@@ -225,7 +227,7 @@ async def on_message(message):
 							await message.channel.send("Cette personne est deja admin !")
 						else:
 							await message.channel.send("l'id ``" + id + "`` à corectement été ajouté !")
-							await message.channel.send("Voicis les ID des admins du serveur : ``" + add_opt.new + " ``")
+							await message.channel.send(opt_trad.now_id[langue].format(add_opt.new))
 
 
         #
@@ -237,19 +239,19 @@ async def on_message(message):
 						id = message.content.upper()[19:37]
 						if message.content[19:37]:
 							if id == str(message.guild.owner.id):
-								await message.channel.send("Vous ne pouvez pas retirer les droit du propriétaire du serveur")
+								await message.channel.send(opt_trad.id_is_admin[langue])
 							else:
 								del_opt(message.guild.id,"admin",id)
 								if del_opt.already == "oui":
-									await message.channel.send("Cet utilisateur n'est pas stocké en temps qu'admin !")
+									await message.channel.send(opt_trad.no_id_admin[langue])
 								elif del_opt.err == "non":
-									await message.channel.send("l'id ``" + id + "`` à corectement été suprimé !")
-									await message.channel.send("Voicis les ID des admins du serveur : ``" + del_opt.new + " ``")
+									await message.channel.send(opt.tard.del_id.format(id))
+									await message.channel.send(opt.trad.now_id[langue].format(admin))
 								else :
-									await message.channel.send("Une erreure est survenue !")
+									await message.channel.send(opt_trad.err[langue])
 									await print(del_opt.exce)
 						else:
-							await message.channel.send("Veuillez preciser un ID !")
+							await message.channel.send(opt_trad.need_ID[langue])
 
 			elif message.content.lower().startswith(prefix + 'ping'):
 				ping_time = time.monotonic()
@@ -285,7 +287,7 @@ async def on_message(message):
 				elif langue == "en":
 				     need = trad.emb_en
 
-				help = discord.Embed(title="Help",description=need[0])
+				help = discord.Embed(title="Help",description=need[0],color=0x7851A9)
 				help.add_field(name = need[1],value = need[2].format(prefix), inline=False)
 				help.add_field(name = need[3],value = need[4].format(prefix), inline=False)
 				help.add_field(name= need[5],value = need[6].format(prefix,prefix,prefix,prefix,prefix), inline=False)
@@ -327,7 +329,7 @@ async def on_message(message):
 			       info_mention_user = message.mentions[0]
 			    else:
 			       info_mention_user = message.author
-			    info_mention=discord.Embed(color=0x700127)
+			    info_mention=discord.Embed(color=0x7851A9)
 			    info_mention.set_author(name="JuiceBox", icon_url="https://juicebot.github.io/assets/images/juicebox-112x112.png")
 			    info_mention.set_thumbnail(url=info_mention_user.avatar_url)
 			    info_mention.add_field(name=info[0],value=info_mention_user, inline=False)
@@ -356,11 +358,92 @@ async def on_message(message):
 
 			    await message.channel.send(embed=info_mention)
 
+			elif message.content.upper().startswith(prefix + "REACTS"):
+			    mess = message.content.split()
+			    try:
+			       try :
+                        #channel
+			           channel = client.get_channel(int(mess[2]))
+                        #message
+			           message = await channel.history().get(id=int(mess[1]))
+			           emojis = str(mess[3])
+			       except:
+			           channel = client.get_channel(int(mess[1]))
+			           message = await channel.history().get(id=int(mess[2]))
+			           emojis = str(mess[3])
+			    except :
+			        emojis = str(mess[1])
+			    try:
+			        await message.add_reaction(emojis)
+			    except:
+			        await message.channel.send(trad.emo[langue].format(emojis))
 
+
+
+			elif message.content.upper().startswith(prefix + "REPORT"):
+			    try:
+			        repo = message.mentions
+			        auth = message.author
+			        len_repo = len(repo)
+			        raison = message.content.split()[int(len_repo)+1:]
+
+			        raison = str(raison)
+			        raison = raison.replace("'"," ")
+			        raison = raison.replace("[","")
+			        raison = raison.replace("]","")
+			        raison = raison.replace(",","")
+
+			        if langue == "fr": repor = trad.repo_fr
+			        elif langue == "en": repor = trad.repo_en
+			        new_rep = ""
+			        for i in repo:
+			            new_rep += i.mention
+
+			        report=discord.Embed(color=0x7851A9)
+			        report.set_author(name="JuiceBox", icon_url="https://juicebot.github.io/assets/images/juicebox-112x112.png")
+			        report.set_thumbnail(url=message.author.avatar_url)
+			        report.add_field(name=repor[0],value=new_rep.replace(",",""), inline=False)
+			        report.add_field(name=repor[1], value=auth.name + " / " + auth.mention, inline=False)
+			        report.add_field(name=repor[2], value=raison, inline=False)
+			        report.add_field(name="ID:", value=message.author.id, inline=False)
+			        Find_Chan =  False
+			        for channel in message.guild.channels:
+			            if channel.name == 'report':
+
+			                await channel.send(embed=report)
+			                Find_Chan = True
+
+			        if Find_Chan == False:
+			            await message.channel.send(trad.NoFoudChanRepo[langue])
+
+			    except Exception as e:
+			        print(e)
+			        await message.channel.send(trad.err_repo[langue].format(prefix))
+
+			elif message.content.lower().startswith(prefix + "bin"):
+			    to_bin = message.content[5:]
+			    await message.channel.send(' '.join('{0:08b}'.format(ord(x), 'b') for x in to_bin))
+
+
+			elif message.content.upper().startswith(prefix + "CONTACT"):
+			    contact = message.content[9:]
+			    ticket_chan = client.get_channel(653195902910988309)
+
+			    ticket = discord.Embed(color=0x7851A9)
+			    ticket.add_field(name="ticket de :",value=message.author.mention,inline=False)
+			    ticket.add_field(name="Contenu ticket :",value=contact,inline=False)
+			    ticket.set_author( name=message.author.name, icon_url=message.author.avatar_url)
+			    ticket.set_footer(text="ID de l'utilisateur :" + str(message.author.id))
+			    await ticket_chan.send(embed=ticket)
+			    await message.channel.send(trad.ticket[langue])
+
+			elif message.content.upper().startswith(prefix + "SUPPORT") or message.content.startswith("<@!528268989525131274>") or message.content.startswith("<@528268989525131274>"):
+			    await message.channel.send(trad.help_1[langue])
 
 		except Exception as e:
 		          print(e)
 		          file = open("errors.txt","a")
-		          file.write(str(e) +" //\\\\ " + message.content + "\n")
+		          file.write(str(e) + "\n")
+		          await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
 
 client.run(TOKEN)
