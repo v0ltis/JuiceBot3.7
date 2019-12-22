@@ -5,14 +5,14 @@ class trad():
 
 
 
-    emb_en = ('Here is the commands list :',"Server management commands:", "Here are the server mannagment commands :\n ``{}report @Naughty_User motive`` in a text channel for report him in #report","Options commands:","Send ``{}options`` in a channel for get all of options commands !",'Fun commands:','Here is fun commands: \n ``{}say [text]``: Make say you\'r message, and delete it if you are admin. \n ``{}gif`` : Send a random GIF, if he is marked like "Spoiler", he could be offensive. \n ``{}info``: Send informations about a guild member.... or yourself ! \n ``{}8ball``: Answer your questions with his crystal ball,but he is sometimes very indecisive \n ``{}calc``: Allows you to calculate, large numbers! After that it’s a bit of a joke ... \n ``{} bin``: 01010100 01110010 01100001 01101110 01110011 01101100 01100001 01110100 01100101 00100000 01111001 01101111 01110101 01110010 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01101001 01101110 01110100 01101111 00100000 01100010 01101001 01101110 01100001 01110010 01111001')
+    emb_en = ('Here is the commands list :',"Server management commands:", "Here are the server mannagment commands :\n ``{}report @Naughty_User motive`` in a text channel for report him in #report","Options commands:","Send ``{}options`` in a channel for get all of options commands !",'Fun commands:','Here is fun commands: \n ``{}say [text]``: Make say you\'r message, and delete it if you are admin. \n ``{}gif`` : Send a random GIF, if he is marked like "Spoiler", he could be offensive. \n ``{}info``: Send informations about a guild member.... or yourself ! \n ``{}8ball``: Answer your questions with his crystal ball,but he is sometimes very indecisive \n ``{}calc``: Allows you to calculate, large numbers! After that it’s a bit of a joke ... \n ``{} bin``: 01010100 01110010 01100001 01101110 01110011 01101100 01100001 01110100 01100101 00100000 01111001 01101111 01110101 01110010 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01101001 01101110 01110100 01101111 00100000 01100010 01101001 01101110 01100001 01110010 01111001',"Premuims commands :","Here are premuims commands \n ``{}set-status [text] (type*)`` : Will change my status by the text! (* The type could be ``dnd``, ``idle``, ``online`` default)Be careful, all rich presence are saved!")
 
 
 
 
 
 
-    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}say [texte]``: Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif``: Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}info``: Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball``: Répond à vos questions après un temps de réflexion, pour sa boule de crystal. \n ``{}calc``:  Vous permet de calculer, de grands nombres ! Apres c\'est un peu buggé :/ \n ``{}bin``: 01010100 01110010 01100001 01100100 01110101 01101001 01110100 00100000 01110110 01101111 01110011 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01100101 01101110 00100000 01100010 01101001 01101110 01100001 01101001 01110010 01100101')
+    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}say [texte]``: Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif``: Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}info``: Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball``: Répond à vos questions après un temps de réflexion, pour sa boule de crystal. \n ``{}calc``:  Vous permet de calculer, de grands nombres ! Apres c\'est un peu buggé :/ \n ``{}bin``: 01010100 01110010 01100001 01100100 01110101 01101001 01110100 00100000 01110110 01101111 01110011 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01100101 01101110 00100000 01100010 01101001 01101110 01100001 01101001 01110010 01100101',"Commandes Premuims :","Voicis les commandes premuims : \n ``{}set-status [texte] (type*)`` : Changera mon status avec le texte ! (* le type peut etre ``dnd`` : Ne pas deranger , ``idle`` : Inactif , ``online`` : en ligne , par default) Attention, ils sont tous sauvegardé !")
 
 
     calc_en = ["That makes almost {}",
@@ -48,7 +48,7 @@ class trad():
     NoFoudChanRepo = {"fr":"Je n'ai pas pu trouver de channel nommé #report, envoie du signalement annulé !","en":"Could not find any channel named #report, report cancelled !"}
 
     err_repo = {"en":"An error occured! Check than you ping someone in you'r message, or put a reason ! \n Command : ``{}report [ping(s)] [reason]``","fr":"Une erreure est survenue ! Verifiez bien que vous avez mentioné des utilisateurs, ou mis une raison ! \n syntaxe : ``{}report [mention(s)] [raison]``"}
-    err = {"en":"Sorry, an error occured: \ n Error: `` {} `` \ n Command: ``{}`` .","fr":"Désolé, une erreure est survenue ! \n Erreure : {} \n Commande : ``{}`` ."}
+    err = {"en":"Sorry, an error occured: \n Error: `` {} `` \n Command: ``{}`` .","fr":"Désolé, une erreure est survenue ! \n Erreure : {} \n Commande : ``{}`` ."}
 
     ticket = {"fr":"Votre ticket a été envoyé avec succès!\nUn membre du staff vous demandera peut-etre en ami pour pouvoir vous envoyer un message! Verifiez vos demandes :wink:","en":"Your ticket has been sent successfully! \n A staff member may ask you as a friend to send you a message! Check your requests :wink:"}
 
@@ -57,7 +57,7 @@ class trad():
     emo = {"fr":"Je n'ai pas réussi a ajouter la réaction ``{}`` ! Veuillez verifier l'emoji et reessayer. \n Il se peut que je n'ai pas les permissions pour ajouter cette reaction !","en":"I did not manage to add the reaction ``{}`` Please check the emoji and try again. \n I may not have the permissions to add this reaction!"}
 
 
-
+    req_arg = {"fr":"Vous devez preciser un status! \n Exemple : ``{}set-status J'aime Juicy``","en":"You must precise a status! \n Exemple : ``{}set-status I love Juicy``"}
 class data():
     gifs = ["https://giphy.com/gifs/AuIvUrZpzBl04",
     			"https://giphy.com/gifs/hello-hey-big-brother-l0MYBbEvqqi1kfuyA",
