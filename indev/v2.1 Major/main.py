@@ -1,14 +1,20 @@
 import discord
+import asyncio
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 import os
 import json
-import time
 from ext import trad,data,opt_trad
 import random
+import datetime
 
 client = Bot(command_prefix="/")
 
+@client.event
+async def on_ready():
+    await client.change_presence(activity=discord.Activity(name="/help - @JuiceBox#5545",type=discord.ActivityType.watching), status=discord.Status.dnd)
+    await asyncio.sleep(0.5)
+    await client.change_presence(activity=discord.Activity(name="/help - @JuiceBox#5545",type=discord.ActivityType.watching), status=discord.Status.dnd)
 #
 #DEF del_opt
 #
@@ -87,7 +93,7 @@ def set_opt(serv, option, new):
 
 
 #
-#DEF Opt
+#DEF opt
 #
 def opt(guild,owner):
     try:
@@ -113,6 +119,13 @@ def opt(guild,owner):
     opt.prefix = str(param["prefix"])
 
     opt.langue = str(param["langue"])
+
+    try:
+        prem = open(str(serv) + "/premuim.txt","r")
+        opt.premuim = prem.read()
+
+    except:
+        opt.premuim = False
 
 
 
@@ -267,7 +280,7 @@ async def on_message(message):
 			elif message.content.lower().startswith(prefix + "8ball"):
 				async with message.channel.typing():
 				      bal = random.choice(trad.ball[langue].split())
-				      time.sleep(len(bal)/8)
+				      await asyncio.sleep(len(bal)/8)
 				await message.channel.send(bal.replace("§"," "))
 
 			elif "BONJOUR" in message.content.upper() or "HELLO" in message.content.upper() :
@@ -285,7 +298,8 @@ async def on_message(message):
 				help = discord.Embed(title="Help",description=need[0],color=0x7851A9)
 				help.add_field(name = need[1],value = need[2].format(prefix), inline=False)
 				help.add_field(name = need[3],value = need[4].format(prefix), inline=False)
-				help.add_field(name= need[5],value = need[6].format(prefix,prefix,prefix,prefix,prefix), inline=False)
+				help.add_field(name= need[5],value = need[6].format(prefix,prefix,prefix,prefix,prefix,prefix), inline=False)
+				help.add_field(name= need[7],value = need[8].format(prefix), inline=False)
 				help.set_footer(text = message.author.name,icon_url=message.author.avatar_url)
 				await message.channel.send(embed=help)
 
@@ -297,7 +311,7 @@ async def on_message(message):
 
 			elif message.content.upper().startswith(prefix + "CALC"):
 			    virg = random.randint(1,7)
-			    x = random.randint(int(-999),int(999999))
+			    x = random.randint(int(-99),int(9999))
 			    if virg == 1:
 			        y = random.randint(0,9999999)
 			        x = str(x) + "," + str(y)
@@ -340,8 +354,6 @@ async def on_message(message):
 			           r += 1
 			       else:
 			           list_user_roles.append("<@&{}>".format(x.id))
-
-            ####################################################################
 
 			    list_user_roles = str(list_user_roles).replace("'"," ")
 			    list_user_roles = str(list_user_roles).replace("[","")
@@ -435,10 +447,38 @@ async def on_message(message):
 			elif message.content.upper().startswith(prefix + "SUPPORT") or message.content.startswith("<@!528268989525131274>") or message.content.startswith("<@528268989525131274>"):
 			    await message.channel.send(trad.help_1[langue])
 
+
+			elif opt.premuim:
+			    if message.content.lower().startswith(prefix + "set-status") and str(message.author.id) in str(admin):
+
+			        no_com = message.content.replace("{}set-status ".format(prefix),"",1)
+
+			        for_file = no_com
+
+			        mess = str(no_com).split()
+
+			        if mess[len(mess)-1].upper() in ("DND","ONLINE","IDLE"):
+			            stat = mess[-1]
+			            print(stat)
+			            no_com = no_com.replace("{}".format(stat),"")
+			            print(no_com)
+			            del mess[-1]
+			        else:
+			            stat = "online"
+
+			        if len(mess) >= 1:
+			            await client.change_presence(activity=discord.Activity(name=str(no_com),type=discord.ActivityType.playing), status=str(stat))
+			            pres = open("pres.txt","a")
+			            pres.write(str(datetime.datetime.now()) + " - \"" + for_file + "\" - " + str(message.author.id) + " - " + str(message.author) + "\n")
+			        else:
+			            await message.channel.send(trad.req_arg[langue].format(prefix))
+
+
+
 		except Exception as e:
 		          print(e)
 		          file = open("errors.txt","a")
 		          file.write(str(e) + "\n")
 		          await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
 
-client.run("TOKEN")
+client.run(BOT)
