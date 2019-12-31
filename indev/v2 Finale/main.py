@@ -580,6 +580,6 @@ async def on_message(message):
 		          print(e)
 		          file = open("errors.txt","a")
 		          file.write(str(e) + "\n")
-		          await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
+		          await message.channel.send(trad.err[opt.langue].format(str(e), str(message.content) ))
 
 client.run("TOKEN")
