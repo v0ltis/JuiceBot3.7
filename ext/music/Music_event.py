@@ -13,7 +13,7 @@ class Music_Event(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_ready(self):
-		self.auto_leave.start()
+		#self.auto_leave.start()
 		try:
 			files = os.listdir('./Tracks/')
 		except FileNotFoundError:

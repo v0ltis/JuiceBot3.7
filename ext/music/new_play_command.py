@@ -2,7 +2,8 @@ import discord,asyncio,os,time,youtube_dl
 from __main__ import Consts
 
 async def play(self,ctx,url):
-	self.bot.auto_leave_for_guild[ctx.guild.id] = False
+	print("Play command received !")
+	#self.bot.auto_leave_for_guild[ctx.guild.id] = False
 
 	#removing old files
 	try:
@@ -16,6 +17,7 @@ async def play(self,ctx,url):
 
 	await ctx.send('[Music] '+"Getting everything ready now")
 
+	await self.join(ctx)
 
 	#setting ytdl_optns
 	ytdl_optns = Consts.ytdl_options
@@ -83,17 +85,10 @@ async def play(self,ctx,url):
 					file_not_find = False
 					break
 			await asyncio.sleep(1)
-			
-
-		#joining
-		try:#to do later ne pas laisser cela comme sa le mettre autre par tester les erreurs ==> doc
-			await self.join(ctx)
-		except:
-			pass
-
 
 		#play
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+
 		self.music_info_per_guild[ctx.guild.id]['stoped'] = False
 
 		#if playlist continue
@@ -144,6 +139,6 @@ async def play(self,ctx,url):
 	task_download = asyncio.create_task(download(self,url,ytdl_optns))
 	task_play = asyncio.create_task(playing(self,ctx,url))
 	task_message = asyncio.create_task(messaging(self,ctx))
-
+	print("lets play some music")
 	await asyncio.gather(task_play,task_download,task_message)
 

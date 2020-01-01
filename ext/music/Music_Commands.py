@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from __main__ import Consts
+from __main__ import Consts,Trad
 
 import os,youtube_dl
 import concurrent,asyncio
@@ -43,14 +43,20 @@ class Music_Commands_Class(commands.Cog):
 		await self.stop(ctx)
 	
 	async def join(self,ctx):
-		lang_test_results = await self.bot.what_language(ctx)
-		if ctx.author.voice != None:
-			voice_channel = ctx.author.voice.channel
-			await voice_channel.connect()
-			return voice_channel
-		else:
-			await ctx.send('[Music] '+Trad.join[lang_test_results[1]][0],delete_after=5)
-			return False
+		try:
+			lang_test_results = await self.bot.what_language(ctx)
+			if ctx.author.voice != None:
+				print("join way 1")
+				voice_channel = ctx.author.voice.channel
+				voice_client = await voice_channel.connect(timeout=5)
+				print("return")
+				return voice_client
+			else:
+				print("join way 2")
+				await ctx.send('[Music] '+Trad.join[lang_test_results[1]][0],delete_after=5)
+				return False
+		except discord.errors.ClientException:
+			pass
 
 	@commands.command(name='join')
 	async def join_command(self,ctx):
@@ -74,7 +80,9 @@ class Music_Commands_Class(commands.Cog):
 					except:
 						pass
 					await self.join(ctx)
+					print("Infinit loop ?")
 					await self.leave(ctx)
+
 					for track in os.listdir(Consts.music_location):
 						if track.startswith(str(ctx.guild.id)):
 							await os.remove(track)
@@ -83,12 +91,11 @@ class Music_Commands_Class(commands.Cog):
 
 	@commands.command(name='leave')
 	async def leave_command(self,ctx):
-		await self.leave(ctx)
+		print(await self.leave(ctx))
 
 	@commands.command()
 	async def play(self,ctx,*,url):
-		try:
-			await self.join(ctx)
-		except:
-			pass
+		print("Play rec")
+		await self.join(ctx)
+		print("Play rec 2")
 		await play_command.play(self,ctx,url)
