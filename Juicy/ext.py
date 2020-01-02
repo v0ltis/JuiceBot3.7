@@ -164,3 +164,19 @@ class opt_trad():
     del_word_succès = {"fr":"``{}`` à été suprimé avec succès !","en":"``{}`` was successfully deleted !"}
 
     lang = {"fr":"La langue est {}","en":"The language is {}"}
+
+    music = {"fr":
+        {"pause":
+            {"successfully":"Musique mise en pause .","failed":""},
+        
+        "resume":
+            {"successfully":"Musique résumé .","failed":""},},
+        
+        "en":
+        {"pause":
+            {"successfully":"Music paused .","failed":""},
+        "resume":
+            {"successfully":"Music resumed .","failed":""}
+        }
+
+        }
