@@ -98,7 +98,8 @@ class data():
 	'default_search': 'auto',
 	'progress_hooks': [my_hook],
 	'quiet': True,
-	'no_warnings':True
+	'no_warnings':True,
+    'ignoreerrors':True,
 	}
     outtmpl = music_location+'{}[{}]-%(title)s.%(ext)s'
 
@@ -107,9 +108,6 @@ class data():
     volume = 4
 
     cant_say = {"fr":"Vous n'avez pas le droit de dire ``{}`` :rage: !","en":"You can't say ``{}`` here !"}
-
-
-
 class opt_trad():
 
     help = {'fr':"Choisisez : \n\
@@ -164,19 +162,19 @@ class opt_trad():
     del_word_succès = {"fr":"``{}`` à été suprimé avec succès !","en":"``{}`` was successfully deleted !"}
 
     lang = {"fr":"La langue est {}","en":"The language is {}"}
-
-    music = {"fr":
+    
+music_trad = \
+    {"fr":
         {"pause":
             {"successfully":"Musique mise en pause .","failed":""},
-        
+    
         "resume":
             {"successfully":"Musique résumé .","failed":""},},
-        
-        "en":
+    
+    "en":
         {"pause":
             {"successfully":"Music paused .","failed":""},
         "resume":
-            {"successfully":"Music resumed .","failed":""}
-        }
+            {"successfully":"Music resumed .","failed":""},},
 
-        }
+    }

@@ -21,21 +21,11 @@ print("La traduction a été importée !")
 from opts import del_opt, add_opt, set_opt, opt
 print("Opts functions has been imported !")
 
+import traceback#gestion des erreurs
+
 print("Importations des fonctions de musique...")
-import sys
 
-try:
-	sys.path.append('./data/')#These lines are temporary while i fully upgrade Juicy (old version)
-	import Consts,Trad#
-	sys.path.append('./ext/music')
-	from Music_Commands import Music_Commands_Class
-except:
-	sys.path.append('./Juicy/data/')#These lines are temporary while i fully upgrade Juicy (old version)
-	import Consts,Trad#
-	sys.path.append('./Juicy/ext/music')
-	from Music_Commands import Music_Commands_Class
-
-
+from Music_Commands import Music_Commands_Class
 
 print("Music classes has been imported !")
 
@@ -47,6 +37,7 @@ class Juicy(commands.Bot):
 
 		super().add_cog(Music_Commands_Class(self))
 		self.auto_leave_for_guild = {}
+		self.has_downloaded_the_first_track = {}
 	
 	@tasks.loop(seconds=120)
 	async def change_status(self):
@@ -68,7 +59,7 @@ class Juicy(commands.Bot):
 		print(guil)
 		print(len(guil_))
 
-		print("Demarage terminé")
+		print("\n \t Demarage terminé")
 		self.change_status.start()
 	
 	async def on_message(self,message):
@@ -455,9 +446,9 @@ class Juicy(commands.Bot):
 						await message.channel.send(trad.cant_say[langue].format(x))
 
 			except Exception as e:
-					print(e)
+					a = traceback.format_exc()
 					file = open("errors.txt","a")
-					file.write(str(e) + "\n")
+					file.write(str(a) + "\n")
 					opt(message.guild,str(message.guild.owner.id))
 					langue = opt.langue
 					await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
@@ -465,8 +456,6 @@ class Juicy(commands.Bot):
 						self.clear()
 						await self.close()
 
-			print(message.content)
-			print("Processing command")
 			await self.process_commands(message)
 
 	async def what_language(self,ctx,author_id=None,member_id=None):
@@ -503,5 +492,14 @@ class Juicy(commands.Bot):
 			return (0,0)
 		'''
 		return (0,0)
-		
-Juicy(command_prefix="/").run("TOKEN")
+
+from TOKEN import TOKEN
+Bot = Juicy(command_prefix="/")
+import atexit
+
+def exit_handler():
+    Bot.clear()
+
+atexit.register(exit_handler)
+
+Bot.run(TOKEN)

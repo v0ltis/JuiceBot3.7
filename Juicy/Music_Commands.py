@@ -1,10 +1,18 @@
 import discord
 from discord.ext import commands,tasks
 
-from __main__ import Consts,Trad#old lines
+import sys,os
+
+try:
+	sys.path.append('./data/')#These lines are temporary while i fully upgrade Juicy (old version)
+	import Trad#
+except:
+	sys.path.append('./Juicy/data/')#These lines are temporary while i fully upgrade Juicy (old version)
+	import Trad#
 
 from opts import opt
-from ext import opt_trad
+from ext import data as Consts
+from ext import music_trad
 
 import os,youtube_dl
 import concurrent,asyncio,time
@@ -25,19 +33,18 @@ class Music_Commands_Class(commands.Cog):
 			os.makedirs('./Tracks/')
 			files = os.listdir('./Tracks/')
 		for x in files:
-			if x.endswith('.mp3') or x.endswith('.webm'):
+			if x.endswith('.mp3') or x.endswith('.webm') or x.endswith("m4a"):
 				os.remove(Consts.music_location+x)
-		print("Music reseted succesfully !")
+		#print("Music reseted succesfully !")
 
 	@tasks.loop(seconds=1)
 	async def auto_leave(self):
 		for voice in self.bot.voice_clients:
-			if self.bot.auto_leave_for_guild[voice.guild.id]:
+			if self.bot.auto_leave_for_guild[voice.guild.id] and self.bot.has_downloaded_the_first_track[voice.guild.id]:
 				await voice.disconnect()
 
 	@commands.command()
 	async def pause(self,ctx):
-		print("Paused")
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
 		voice.pause()
 		opt(ctx.guild,str(ctx.guild.owner.id))
@@ -58,9 +65,21 @@ class Music_Commands_Class(commands.Cog):
 		voice.stop()
 
 	async def stop(self,ctx):
+		def removing_old_files():
+			try:
+				if self.music_info_per_guild[ctx.guild.id]['stoped']:
+					for file in os.listdir("./Tracks"):
+						if str(ctx.guild.id) in file:
+							os.remove("./Tracks/"+file)
+			except:
+				removing_old_files()
+
+		print("Stoping")
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
 		voice.stop()
 		self.music_info_per_guild[ctx.guild.id]['stoped'] = True
+		self.bot.has_downloaded_the_first_track[ctx.guild.id] = True
+		removing_old_files()
 
 	@commands.command(name='stop')
 	async def stop_command(self,ctx):
@@ -70,13 +89,10 @@ class Music_Commands_Class(commands.Cog):
 		try:
 			lang_test_results = await self.bot.what_language(ctx)
 			if ctx.author.voice != None:
-				print("join way 1")
 				voice_channel = ctx.author.voice.channel
 				voice_client = await voice_channel.connect(timeout=5)
-				print("return")
 				return voice_client
 			else:
-				print("join way 2")
 				await ctx.send('[Music] '+Trad.join[lang_test_results[1]][0],delete_after=5)
 				return False
 		except discord.errors.ClientException:
@@ -115,25 +131,60 @@ class Music_Commands_Class(commands.Cog):
 
 	@commands.command(name='leave')
 	async def leave_command(self,ctx):
-		print(await self.leave(ctx))
+		await self.leave(ctx)
 
 	@commands.command()
-	async def play(self,ctx,*,url):
-		print("Play rec")
+	async def var_state(self,ctx):
+		msg = str(self.music_info_per_guild),str(self.bot.auto_leave_for_guild),str(self.bot.has_downloaded_the_first_track)
+		await ctx.send(msg)
+
+	@commands.command(name="play")
+	async def play_cmd(self,ctx,*,url):
+		await self.play(ctx,url)
+
+	async def play(self,ctx,url):
+		if not ctx.guild.id in self.bot.auto_leave_for_guild.keys():
+			self.bot.auto_leave_for_guild[ctx.guild.id] = True
+			
 		await self.join(ctx)
-		print("Play command received !")
 		#self.bot.auto_leave_for_guild[ctx.guild.id] = False
 
 		#removing old files
+		async def music_played():
+			#print("Trying to delete song file, but it's being played")
+			await ctx.send('[Music] '+"ERROR: Music playing")
+			msg = await ctx.send('[Music] '+"Do you want to switch to this track ?")
+			await msg.add_reaction("✅")
+			await msg.add_reaction("❌")
+
+			def check(reaction, user):
+				return str(reaction.emoji) == '✅' or str(reaction.emoji) == '❌' and reaction.message.id == ctx.message.id
+			try:
+				reaction,user = await self.bot.wait_for("reaction_add", timeout=60.0,check=check)
+			except asyncio.TimeoutError:
+				return False
+			else:
+				if str(reaction.emoji) == '❌':
+					await ctx.send("[Music] All rights, i won't change the current track.")
+				else:
+					await ctx.send("[Music] All rights, changing song ...")
+					await self.stop(ctx)
+					await self.play(ctx,url)
+
 		try:
 			for x in os.listdir(Consts.music_location):
 				if x.startswith(str(ctx.guild.id)):
 					os.remove(Consts.music_location+x)
 		except PermissionError:
-			#print("Trying to delete song file, but it's being played")
-			await ctx.send('[Music] '+"ERROR: Music playing")
-			return False
+			print("Error way 1")
+			await music_played()
+		
+		if ctx.guild.id in self.bot.has_downloaded_the_first_track.keys():
+			if not self.bot.has_downloaded_the_first_track[ctx.guild.id]:
+				print("Error way 2")
+				await music_played()
 
+		self.bot.has_downloaded_the_first_track[ctx.guild.id] = False
 		await ctx.send('[Music] '+"Getting everything ready now")
 
 		await self.join(ctx)
@@ -155,10 +206,18 @@ class Music_Commands_Class(commands.Cog):
 			ytdl_optns['playlist_items'] = str(self.music_info_per_guild[ctx.guild.id]['download_state'][0])
 
 		#audio downloader
-		async def download(self,url,optns):
+		async def download(self,url,optns,guild_id):
+			def removing_old_files():
+				if self.music_info_per_guild[ctx.guild.id]['stoped']:
+					for file in os.listdir("./Tracks"):
+						if str(guild_id) in file:
+							os.remove("./Tracks/"+file)
+			if self.music_info_per_guild[ctx.guild.id]['stoped']:
+				removing_old_files()
 			if not self.music_info_per_guild[ctx.guild.id]['is_playlist']:
 				with youtube_dl.YoutubeDL(optns) as ydl:
-						info = ydl.extract_info(url)
+					info = ydl.extract_info(url)
+				removing_old_files()
 			else:
 				while not self.music_info_per_guild[ctx.guild.id]['stoped']:
 					index = self.music_info_per_guild[ctx.guild.id]['download_state'][0]
@@ -170,6 +229,7 @@ class Music_Commands_Class(commands.Cog):
 							if not self.music_info_per_guild[ctx.guild.id]['stoped']:
 								with youtube_dl.YoutubeDL(optns) as ydl:
 									info = ydl.extract_info(url)
+									self.bot.has_downloaded_the_first_track[guild_id] = True
 									self.music_info_per_guild[ctx.guild.id]['download_state'][1].append(x)
 									if info['entries'] == []:
 										self.music_info_per_guild[ctx.guild.id]['stoped'] = True
@@ -182,6 +242,7 @@ class Music_Commands_Class(commands.Cog):
 											await youtube_dl.send('[Music downloader] filename = {}'.format(y))
 						await asyncio.sleep(1)
 					await asyncio.sleep(1)
+				removing_old_files()
 		
 		#player
 		async def messaging(self,ctx):
@@ -255,8 +316,8 @@ class Music_Commands_Class(commands.Cog):
 			if self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:
 				self.music_info_per_guild[ctx.guild.id]['download_state'][0] += 1
 
-		task_download = asyncio.create_task(download(self,url,ytdl_optns))
+		task_download = asyncio.create_task(download(self,url,ytdl_optns,ctx.guild.id))
 		task_play = asyncio.create_task(playing(self,ctx,url))
 		task_message = asyncio.create_task(messaging(self,ctx))
-		print("lets play some music")
+		print("lets play some music\n")
 		await asyncio.gather(task_play,task_download,task_message)
