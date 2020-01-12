@@ -103,7 +103,6 @@ class data():
 	}
 
     outtmpl = music_location+'{}[{}]-%(title)s.%(ext)s'
-    #outtmpl_playlist = music_location+'{}[{}]-%(title)s-%(url)s-%(playlist_index)s-%(playlist_title)s.%(ext)s'
 
     file_name = music_location+'{}[{}].webm'
 

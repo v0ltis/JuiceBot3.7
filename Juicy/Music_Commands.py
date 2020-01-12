@@ -71,7 +71,6 @@ class Music_Commands_Class(commands.Cog):
 
 	async def stop(self,ctx):
 		def removing_old_files():
-			print("removing")
 			try:
 				if self.music_info_per_guild[ctx.guild.id]['stoped']:
 					for file in os.listdir("./Tracks"):
@@ -80,7 +79,6 @@ class Music_Commands_Class(commands.Cog):
 			except:
 				removing_old_files()
 
-		#print("Stoping")
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
 		self.music_info_per_guild[ctx.guild.id]['stoped'] = True
 		self.bot.has_downloaded_the_first_track[ctx.guild.id] = True
@@ -177,7 +175,6 @@ class Music_Commands_Class(commands.Cog):
 	async def play(self,ctx,url):
 		if not ctx.guild.id in self.bot.auto_leave_for_guild.keys():
 			self.bot.auto_leave_for_guild[ctx.guild.id] = True
-		#self.bot.auto_leave_for_guild[ctx.guild.id] = False
 		
 		langue = self.bot.which_language(ctx)
 
@@ -211,12 +208,10 @@ class Music_Commands_Class(commands.Cog):
 				if x.startswith(str(ctx.guild.id)):
 					os.remove(Consts.music_location+x)
 		except PermissionError:
-			#print("Error way 1")
 			await music_played()
 		
 		if ctx.guild.id in self.bot.has_downloaded_the_first_track.keys():
 			if not self.bot.has_downloaded_the_first_track[ctx.guild.id]:
-				#print("Error way 2")
 				await music_played()
 
 		self.bot.has_downloaded_the_first_track[ctx.guild.id] = False
@@ -233,7 +228,6 @@ class Music_Commands_Class(commands.Cog):
 
 		ytdl_optns['outtmpl'] = Consts.outtmpl.format(ctx.guild.id,1)
 
-		#print(Consts.outtmpl.format(ctx.guild.id,1))
 		#setting music info
 		self.music_info_per_guild[ctx.guild.id] = {'is_playlist':False,
 			'stoped':False,
@@ -252,10 +246,8 @@ class Music_Commands_Class(commands.Cog):
 
 		#audio downloader
 		async def download(self,url,optns,guild_id):
-			#print("download")
 			def removing_old_files():
 				if self.music_info_per_guild[ctx.guild.id]['stoped']:
-					#print("removing")
 					for file in os.listdir("./Tracks"):
 						if str(guild_id) in file:
 							os.remove("./Tracks/"+file)
@@ -277,42 +269,12 @@ class Music_Commands_Class(commands.Cog):
 									with youtube_dl.YoutubeDL(optns) as ydl:
 										info = ydl.extract_info(url)
 										keyword = info["entries"][0]
-										#print(keyword["playlist_index"],keyword["title"])
+
 										self.music_info_per_guild[ctx.guild.id]["extracted_info"].append(keyword)
 										self.bot.get_vars = keyword
-										'''
-										embed=discord.Embed(title="Track information", url="https://www.youtube.com/watch?v=n8X9_MgEdCg", description="description")#url
-										embed.set_author(name="TheFatRat", url="http://www.youtube.com/user/ThisIsTheFatRat")#uploader, uploader_url
-										embed.set_thumbnail(url="https://i.ytimg.com/vi/n8X9_MgEdCg/maxresdefault.jpg")#thumbnail
-										embed.add_field(name="Descritpion", value="...", inline=True)#Description(value) optionnal ? ==> description puted in discord.Embed
-										embed.add_field(name="Time information", value="Upload date : 00/00/0000 \n Duration:00h00min00sec", inline=True)#upload date duration converted
-										embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")#need to add custom command
-										await self.bot.say(embed=embed)
-										'''
-										'''
-										print('"',keyword["title"],\
-											#keyword["artist"],
-											keyword["uploader"],\
-											keyword["playlist_title"],\
-											keyword["playlist_index"],\
-											keyword["age_limit"],\
-											keyword["duration"],\
-											keyword["upload_date"],\
-											keyword["view_count"],\
-											keyword["like_count"],\
-											keyword["dislike_count"],\
-											keyword["uploader_url"],\
-											keyword["webpage_url"],\
-											#keyword["url"]==> url to download the video(audio only)
-											'"')
-										print("\n\n\n\t",keyword["title"],keyword["uploader"],keyword["playlist_title"],keyword["playlist"],keyword["playlist_index"],\
-											keyword["description"],keyword["duration"],\
-											keyword["upload_date"],keyword["license"],keyword["age_limit"],keyword["track"],keyword["artist"],keyword["album"],
-											keyword["release_date"],keyword["release_year"],"\n\n\n")
-										'''
-
 										self.bot.has_downloaded_the_first_track[guild_id] = True
 										self.music_info_per_guild[ctx.guild.id]['download_state'][1].append(x)
+
 										if info['entries'] == []:
 											self.music_info_per_guild[ctx.guild.id]['stoped'] = True
 										else:
@@ -345,13 +307,10 @@ class Music_Commands_Class(commands.Cog):
 		async def playing(self,ctx,url):
 			def next_embed():
 				#embed
-				#print(self.music_info_per_guild[ctx.guild.id]["extracted_info"])
-				#print(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])
 				keyword = self.music_info_per_guild[ctx.guild.id]["extracted_info"][self.music_info_per_guild[ctx.guild.id]["index_currently_played"]]
 				if keyword["uploader"] in keyword["title"]:
 					pos_uploader_name = keyword["title"].index(keyword["uploader"])
 					title = keyword["title"][:pos_uploader_name] + keyword["title"][len(keyword["uploader"]):]
-					#print(title)
 				else:
 					title = keyword["title"]
 				
@@ -367,11 +326,10 @@ class Music_Commands_Class(commands.Cog):
 					duration_minutes -= 60
 
 				embed=discord.Embed(title=title, url=keyword["webpage_url"])#, description=keyword["description"])
-				embed.set_author(name=keyword["uploader"], url=keyword["uploader_url"])#uploader, uploader_url
-				embed.set_thumbnail(url=keyword["thumbnail"])#thumbnail
-				#embed.add_field(name="Descritpion", value="...", inline=True)#Description(value) optionnal ? ==> description puted in discord.Embed
-				embed.add_field(name="Time information", value=f"Upload date : {upload_day}/{upload_month}/{upload_year} \n Duration: {duration_hour}h{duration_minutes}min{duration_secondes}sec", inline=True)#upload date duration converted
-				embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")#need to add custom command
+				embed.set_author(name=keyword["uploader"], url=keyword["uploader_url"])
+				embed.set_thumbnail(url=keyword["thumbnail"])
+				embed.add_field(name="Time information", value=f"Upload date : {upload_day}/{upload_month}/{upload_year} \n Duration: {duration_hour} h {duration_minutes} min {duration_secondes} sec", inline=True)
+				embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")
 				
 				self.music_info_per_guild[ctx.guild.id]["next_embed"] = embed
 				self.music_info_per_guild[ctx.guild.id]["index_currently_played"] += 1
@@ -426,16 +384,14 @@ class Music_Commands_Class(commands.Cog):
 				else:
 					self.bot.auto_leave_for_guild[ctx.guild.id] = True
 					return True
-			#print(Consts.music_location+file)
+
 			voice.play(discord.FFmpegPCMAudio(Consts.music_location+file), after=lambda e:next_track(self))
 
 			voice.source = discord.PCMVolumeTransformer(voice.source)
 			voice.source.volume = Consts.volume
 
-			#print(file)
 			title = ''.join(str(x) for x in file.split('-')[1:])
 			title = ''.join(str(x) for x in title.split('.')[:-1])
-			#print(title)
 			next_embed()
 			if self.music_info_per_guild[ctx.guild.id]['next_embed'] != None:
 				pass

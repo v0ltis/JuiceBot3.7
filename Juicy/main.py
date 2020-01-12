@@ -463,39 +463,7 @@ class Juicy(commands.Bot):
 		opt(ctx.guild,str(ctx.guild.owner.id))
 		return opt.langue
 
-	async def what_language(self,ctx,author_id=None,member_id=None):
-		'''
-		if ctx == None or member_id != None:
-			author_id = member_id
-			guild_id = None
-		elif ctx.guild != None:
-			author_id = ctx.author.id
-			guild_id = ctx.guild.id
-		else:
-			author_id = ctx.author.id
-			guild_id = None
-		
-		await self.verifie_loaded_data()
-		
-		try:
-			self.lang = self.loaded_data['lang']
-		except AttributeError:
-			self.lang = {}
-		except KeyError:
-			self.lang = {}
-		
-		if author_id in list(self.loaded_data.keys()):
-			language = loaded_data[ctx.author.id]
-			return (1,language)#1 : author language, 
-		elif guild_id != None:
-			if guild_id in list(self.loaded_data.keys()):
-				language = loaded_data[ctx.guild.id]
-				return (2,language)#server language
-			else:
-				return (0,0)
-		else:
-			return (0,0)
-		'''
+	async def what_language(self,ctx,author_id=None,member_id=None):#before having entirely updated the bot (old version)
 		return (0,0)
 
 from TOKEN import TOKEN
