@@ -93,7 +93,7 @@ class data():
 	'keepvideo':True,
 	'format': 'bestaudio/best',
 	'usenetrc': True,
-	'outtmpl': music_location+'{}[{}]-%(title)s.%(ext)s',
+	'outtmpl': music_location+'{}[{}]-%(title)s-%(url)s.%(ext)s',
 	'nocheckcertificate': True,
 	'default_search': 'auto',
 	'progress_hooks': [my_hook],
@@ -101,11 +101,13 @@ class data():
 	'no_warnings':True,
     'ignoreerrors':True,
 	}
+
     outtmpl = music_location+'{}[{}]-%(title)s.%(ext)s'
+    #outtmpl_playlist = music_location+'{}[{}]-%(title)s-%(url)s-%(playlist_index)s-%(playlist_title)s.%(ext)s'
 
     file_name = music_location+'{}[{}].webm'
 
-    volume = 4
+    volume = 0.5
 
     cant_say = {"fr":"Vous n'avez pas le droit de dire ``{}`` :rage: !","en":"You can't say ``{}`` here !"}
 class opt_trad():
@@ -162,19 +164,55 @@ class opt_trad():
     del_word_succès = {"fr":"``{}`` à été suprimé avec succès !","en":"``{}`` was successfully deleted !"}
 
     lang = {"fr":"La langue est {}","en":"The language is {}"}
-    
+
+music_tags = {"music_functs":"[Music] ","error":"[Error] "}
+
 music_trad = \
     {"fr":
-        {"pause":
-            {"successfully":"Musique mise en pause .","failed":""},
-    
+        {
+        "play":
+            {"not_switching":music_tags["music_functs"]+"Pas de problème je ne vais pas changer la musique actuelle.",
+            "switching":music_tags["music_functs"]+"Pas de problème je vais changer la musique actuelle...",
+            "switching_track":music_tags["music_functs"]+"Voulez-vous vraiment jouer cette musique `{}` ?",
+            "searching":music_tags["music_functs"]+"Recherche de **{}** :mag_right:",
+            "receiving_data":music_tags["music_functs"]+"Reception des données de **{}** :arrow_down:"},
+        "pause":
+            {"successfully":music_tags["music_functs"]+"Musique mise en pause.","failed":""},
         "resume":
-            {"successfully":"Musique résumé .","failed":""},},
-    
-    "en":
-        {"pause":
-            {"successfully":"Music paused .","failed":""},
-        "resume":
-            {"successfully":"Music resumed .","failed":""},},
+            {"successfully":music_tags["music_functs"]+"Musique résumé.","failed":""},        
+        "join":
+            {"successfully":music_tags["music_functs"]+"Salon vocal rejoint avec succès. :sound:",
+            "movement":music_tags["music_functs"]+"Déplacement vers votre salon vocal terminé avec succès.",
+            "failed":music_tags["music_functs"]+"Impossible de se connecter..."},
 
+        "global_failed":
+            {"not_connected":music_tags["error"]+"Je ne suis pas connecté à un salon vocal.",
+            "already_connected":music_tags["error"]+"Je suis déjà connecté à un salon vocal.",
+            "not_playing":music_tags["error"]+"Je ne joue pas de musique actuellement.",
+            "already_playing":music_tags["error"]+"Je joue déjà de la musique..."}
+        },
+
+    "en":
+        {
+        "play":
+            {"not_switching":music_tags["music_functs"]+"All rights, i won't change the current track.",
+            "switching":music_tags["music_functs"]+"All rights, changing song...",
+            "switching_track":music_tags["music_functs"]+"Do you want to switch to this track `{}` ?",
+            "searching":music_tags["music_functs"]+"Searching for **{}** :mag_right:",
+            "receiving_data":music_tags["music_functs"]+"Receiving data from **{}** :arrow_down:"},
+        "pause":
+            {"successfully":music_tags["music_functs"]+"Music paused.","failed":""},
+        "resume":
+            {"successfully":music_tags["music_functs"]+"Music resumed.","failed":""},
+        "join":
+            {"successfully":music_tags["music_functs"]+"Vocal channel successfully joined. :sound:",
+            "movement":music_tags["music_functs"]+"Successfully moved to your voice channel.",
+            "failed":music_tags["music_functs"]+"Failed to join your voice channel..."},
+
+        "global_failed":
+            {"not_connected":music_tags["error"]+"I'm not conected to a voice channel.",
+            "already_connected":music_tags["error"]+"I'm already connected to a voice channel.",
+            "not_playing":music_tags["error"]+"I'm not playing music at the moment.",
+            "already_playing":music_tags["error"]+"I'm already playing music..."}
+        }
     }

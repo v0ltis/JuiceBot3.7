@@ -38,7 +38,8 @@ class Juicy(commands.Bot):
 		super().add_cog(Music_Commands_Class(self))
 		self.auto_leave_for_guild = {}
 		self.has_downloaded_the_first_track = {}
-	
+		self.get_vars = ""
+		
 	@tasks.loop(seconds=120)
 	async def change_status(self):
 		await self.change_presence(activity=discord.Activity(name="/help - @JuiceBox#5545",type=discord.ActivityType.watching),\
@@ -458,6 +459,10 @@ class Juicy(commands.Bot):
 
 			await self.process_commands(message)
 
+	def which_language(self,ctx):
+		opt(ctx.guild,str(ctx.guild.owner.id))
+		return opt.langue
+
 	async def what_language(self,ctx,author_id=None,member_id=None):
 		'''
 		if ctx == None or member_id != None:
@@ -495,6 +500,7 @@ class Juicy(commands.Bot):
 
 from TOKEN import TOKEN
 Bot = Juicy(command_prefix="/")
+
 import atexit
 
 def exit_handler():
