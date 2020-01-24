@@ -2,7 +2,7 @@ from subprocess import call, check_output, run, PIPE, check_call, STDOUT
 from sys import executable,argv
 import os
 
-packages = ["discord.py","youtube_dl","discord.py[voice]"]
+packages = ["pip","discord.py","youtube_dl","discord.py[voice]"]
 print("Updating librairies")
 
 def install_package(package):#it should work if not tell me it

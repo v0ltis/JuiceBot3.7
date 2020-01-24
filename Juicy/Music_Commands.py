@@ -25,8 +25,13 @@ class Music_Commands_Class(commands.Cog):
 		self.music_info_per_guild = {}
 
 	@commands.Cog.listener()
+	async def on_disconnect(self):
+		for voice in self.bot.voice_clients:
+				await voice.disconnect()
+
+	@commands.Cog.listener()
 	async def on_ready(self):
-		#self.auto_leave.start()
+		self.auto_leave.start()
 		try:
 			files = os.listdir('./Tracks/')
 		except FileNotFoundError:
@@ -40,7 +45,7 @@ class Music_Commands_Class(commands.Cog):
 	@tasks.loop(seconds=1)
 	async def auto_leave(self):
 		for voice in self.bot.voice_clients:
-			if self.bot.auto_leave_for_guild[voice.guild.id] and self.bot.has_downloaded_the_first_track[voice.guild.id]:
+			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
 				print("Auto leaving ...")
 				await voice.disconnect()
 
@@ -156,15 +161,20 @@ class Music_Commands_Class(commands.Cog):
 	@commands.command()
 	async def var_state(self,ctx):
 		msg = str(self.music_info_per_guild),str(self.bot.auto_leave_for_guild),str(self.bot.has_downloaded_the_first_track)
-		await ctx.send(msg)
+		await ctx.send((self.bot.auto_leave_for_guild[ctx.guild.id],self.music_info_per_guild[ctx.guild.id]['has_finished_playing'],self.music_info_per_guild[ctx.guild.id]['stoped']))
 	
 	@commands.command()
 	async def get_dict(self,ctx,*,arg:str):
+		'''
 		if arg in self.bot.get_vars.keys():
 			await ctx.send(self.bot.get_vars[arg])
 		else:
 			await ctx.send("key does not exist")
+		'''
 		await ctx.send(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])
+		print(str(self.music_info_per_guild[ctx.guild.id])+"\n\n\t")
+		print(str(self.music_info_per_guild[ctx.guild.id]["extracted_info"])+"\n\n\t")
+		print(str(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])+"\n\n\t")
 		await ctx.send(self.music_info_per_guild[ctx.guild.id]["extracted_info"][self.music_info_per_guild[ctx.guild.id]["index_currently_played"]])
 
 
@@ -237,7 +247,10 @@ class Music_Commands_Class(commands.Cog):
 			'next_embed':None,
 			'extracted_info':[],
 			'index_currently_played':0,
-			'download_complete':False#if raide index error donwload completed (playlist only)
+			'download_complete':(False,0),#if raide index error donwload completed (playlist only), playlist index to play
+			'has_played_the_first_track':False,
+			'has_finished_playing':False,
+			'playlist':[]
 			}
 
 		if 'list' in url:
@@ -256,6 +269,11 @@ class Music_Commands_Class(commands.Cog):
 			if not self.music_info_per_guild[ctx.guild.id]['is_playlist']:
 				with youtube_dl.YoutubeDL(optns) as ydl:
 					info = ydl.extract_info(url)
+					keyword = info["entries"][0]
+
+					self.music_info_per_guild[ctx.guild.id]["extracted_info"].append(keyword)
+					self.bot.get_vars = keyword
+					self.bot.has_downloaded_the_first_track[guild_id] = True
 				removing_old_files()
 			else:
 				while not self.music_info_per_guild[ctx.guild.id]['stoped']:
@@ -287,7 +305,7 @@ class Music_Commands_Class(commands.Cog):
 							await asyncio.sleep(1)
 						await asyncio.sleep(1)
 					except IndexError:
-						self.music_info_per_guild[ctx.guild.id]['download_complete'] = True
+						self.music_info_per_guild[ctx.guild.id]['download_complete'] = (True,self.music_info_per_guild[ctx.guild.id]["extracted_info"][-1]["playlist_index"])
 						return True
 		
 		#player
@@ -332,7 +350,8 @@ class Music_Commands_Class(commands.Cog):
 				embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")
 				
 				self.music_info_per_guild[ctx.guild.id]["next_embed"] = embed
-				self.music_info_per_guild[ctx.guild.id]["index_currently_played"] += 1
+				if music_info_per_guild[ctx.guild.id]["is_playlist"]:
+					self.music_info_per_guild[ctx.guild.id]["index_currently_played"] += 1
 
 
 			#waiting for file
@@ -352,10 +371,14 @@ class Music_Commands_Class(commands.Cog):
 
 			#if playlist continue
 			def next_track(self):
-				if self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:				
+				index = self.music_info_per_guild[ctx.guild.id]['download_state'][0]
+				
+				if self.music_info_per_guild[ctx.guild.id]['download_complete'][0] and self.music_info_per_guild[ctx.guild.id]['download_complete'][0]<index:
+					self.music_info_per_guild[ctx.guild.id]['has_finished_playing'] = True
+				
+				elif self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:				
 					#waiting for file
 					file_not_find = True
-					index = self.music_info_per_guild[ctx.guild.id]['download_state'][0]
 					
 					while file_not_find:
 						for x in os.listdir(Consts.music_location):
@@ -397,6 +420,8 @@ class Music_Commands_Class(commands.Cog):
 				pass
 			else:
 				await ctx.send('[Music] '+f'Playing: `{title}` :notes:')#insta format
+			
+			self.music_info_per_guild[ctx.guild.id]['has_played_the_first_track'] = True
 			
 			if self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:
 				self.music_info_per_guild[ctx.guild.id]['download_state'][0] += 1
