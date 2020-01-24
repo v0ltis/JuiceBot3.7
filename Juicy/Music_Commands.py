@@ -23,6 +23,7 @@ class Music_Commands_Class(commands.Cog):
 	def __init__(self,bot):
 		self.bot = bot
 		self.music_info_per_guild = {}
+		self.tasks = {}
 
 	@commands.Cog.listener()
 	async def on_disconnect(self):
@@ -41,10 +42,20 @@ class Music_Commands_Class(commands.Cog):
 			if x.endswith('.mp3') or x.endswith('.webm') or x.endswith("m4a"):
 				os.remove(Consts.music_location+x)
 		print("Music reseted succesfully !")
+		for voice in self.bot.voice_clients:
+			print("Auto leaving ...")
+			await voice.disconnect()
 
 	@tasks.loop(seconds=1)
 	async def auto_leave(self):
 		for voice in self.bot.voice_clients:
+			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
+				print("Auto leaving ...")
+				await voice.disconnect()
+	@commands.command()
+	async def auto_lv_test(self,ctx):
+		for voice in self.bot.voice_clients:
+			print(voice)
 			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
 				print("Auto leaving ...")
 				await voice.disconnect()
@@ -72,24 +83,33 @@ class Music_Commands_Class(commands.Cog):
 	@commands.command()
 	async def skip(self,ctx):
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+		if not self.music_info_per_guild[ctx.guild.id]['is_playlist']:
+			await self.stop(ctx)
 		voice.stop()
 
 	async def stop(self,ctx):
-		def removing_old_files():
+		def removing_old_files(x):
 			try:
 				if self.music_info_per_guild[ctx.guild.id]['stoped']:
 					for file in os.listdir("./Tracks"):
 						if str(ctx.guild.id) in file:
 							os.remove("./Tracks/"+file)
 			except:
-				removing_old_files()
+				removing_old_files(x-1)
 
 		voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-		self.music_info_per_guild[ctx.guild.id]['stoped'] = True
-		self.bot.has_downloaded_the_first_track[ctx.guild.id] = True
+		try:
+			self.music_info_per_guild[ctx.guild.id]['stoped'] = True
+			self.bot.has_downloaded_the_first_track[ctx.guild.id] = True
+		except:
+			pass
 
 		voice.stop()
-		removing_old_files()
+		#avoiding errors caused by too many conurrent tasks(bad optimisation)
+		for task in self.tasks[ctx.guild.id].values():
+			task.cancel()
+
+		removing_old_files(10)
 
 	@commands.command(name='stop')
 	async def stop_command(self,ctx):
@@ -99,7 +119,11 @@ class Music_Commands_Class(commands.Cog):
 		lang_test_results = await self.bot.what_language(ctx)
 		langue = self.bot.which_language(ctx)
 
-		if discord.utils.get(self.bot.voice_clients, guild=ctx.guild) != None and cmd:
+		if discord.utils.get(self.bot.voice_clients, guild=ctx.guild) == None and cmd:
+			voice = ctx.author.voice.channel
+			await voice.connect(timeout=5)
+		
+		elif discord.utils.get(self.bot.voice_clients, guild=ctx.guild) != None and cmd:
 			voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
 			await voice.move_to(ctx.author.voice.channel)
 		
@@ -137,8 +161,9 @@ class Music_Commands_Class(commands.Cog):
 
 		voice = discord.utils.get(voice_clients, guild=ctx.guild)
 
-		if voice != None:
+		if voice != None and not voice.is_playing():
 			await voice.disconnect()
+		
 		else:
 			voices_in_channel = ctx.author.voice
 			if voices_in_channel != None:
@@ -207,10 +232,8 @@ class Music_Commands_Class(commands.Cog):
 					await ctx.send(music_trad[langue]["play"]["not_switching"])
 				else:
 					await ctx.send(music_trad[langue]["play"]["switching"])
-					try:
-						await self.stop(ctx)
-					except AttributeError:
-						pass
+					await self.stop(ctx)
+					await asyncio.sleep(1)
 					await self.play(ctx,url)
 
 		try:
@@ -253,7 +276,7 @@ class Music_Commands_Class(commands.Cog):
 			'playlist':[]
 			}
 
-		if 'list' in url:
+		if 'list' in url and ' ' in url:
 			self.music_info_per_guild[ctx.guild.id]['is_playlist'] = True
 			ytdl_optns['playlist_items'] = str(self.music_info_per_guild[ctx.guild.id]['download_state'][0])
 
@@ -319,8 +342,8 @@ class Music_Commands_Class(commands.Cog):
 				elif message != '':
 					await ctx.send(message)
 					self.music_info_per_guild[ctx.guild.id]['next_message'] = ''
-				await asyncio.sleep(0.25)
-
+				await asyncio.sleep(0.10)
+			print('has been stoped')
 		#play function
 		async def playing(self,ctx,url):
 			def next_embed():
@@ -350,7 +373,7 @@ class Music_Commands_Class(commands.Cog):
 				embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")
 				
 				self.music_info_per_guild[ctx.guild.id]["next_embed"] = embed
-				if music_info_per_guild[ctx.guild.id]["is_playlist"]:
+				if self.music_info_per_guild[ctx.guild.id]["is_playlist"]:
 					self.music_info_per_guild[ctx.guild.id]["index_currently_played"] += 1
 
 
@@ -425,9 +448,10 @@ class Music_Commands_Class(commands.Cog):
 			
 			if self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:
 				self.music_info_per_guild[ctx.guild.id]['download_state'][0] += 1
-
-		task_download = asyncio.create_task(download(self,url,(ytdl_optns),ctx.guild.id))
-		task_play = asyncio.create_task(playing(self,ctx,url))
-		task_message = asyncio.create_task(messaging(self,ctx))
+		
+		self.tasks[ctx.guild.id] = {}
+		self.tasks[ctx.guild.id]['task_download'] = asyncio.create_task(download(self,url,(ytdl_optns),ctx.guild.id))
+		self.tasks[ctx.guild.id]['task_play'] = asyncio.create_task(playing(self,ctx,url))
+		self.tasks[ctx.guild.id]['task_message'] = asyncio.create_task(messaging(self,ctx))
 		print("lets play some music\n")
-		await asyncio.gather(task_play,task_download,task_message)
+		await asyncio.gather(self.tasks[ctx.guild.id]['task_download'],self.tasks[ctx.guild.id]['task_play'],self.tasks[ctx.guild.id]['task_message'])
