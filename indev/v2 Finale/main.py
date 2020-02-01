@@ -295,15 +295,6 @@ async def on_message(message):
 				await pinger.edit(content=":ping_pong: **Pong !**\n `Ping:" + ping + "`")
 
 
-			elif message.content.lower().startswith(prefix + "say"):
-				args = message.content[4:]
-
-				if not str(message.author.id) in admin:
-					await message.channel.send("<@"  + str(message.author.id) + ">")
-
-				await message.channel.send(args)
-
-
 			elif message.content.lower().startswith(prefix + "8ball"):
 				async with message.channel.typing():
 				      bal = random.choice(trad.ball[langue].split())
@@ -478,8 +469,10 @@ async def on_message(message):
 			elif message.content.upper().startswith(prefix + "SERVER-INFO"):
 			    prop = str(guild.owner.id)
 
-
+			
 			elif opt.premuim:
+				pass
+'''		
 			    if message.content.lower().startswith(prefix + "set-status") and str(message.author.id) in str(admin):
 
 			        no_com = message.content.replace("{}set-status ".format(prefix),"",1)
@@ -502,7 +495,7 @@ async def on_message(message):
 			            pres = open("pres.txt","a")
 			            pres.write(str(datetime.datetime.now()) + " - \"" + for_file + "\" - " + str(message.author.id) + " - " + str(message.author) + "\n")
 			        else:
-			            await message.channel.send(trad.req_arg[langue].format(prefix))
+			            await message.channel.send(trad.req_arg[langue].format(prefix))'''
 
 
 
