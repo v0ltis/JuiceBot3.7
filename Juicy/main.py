@@ -229,7 +229,7 @@ class Juicy(commands.Bot):
 					ping = "%.2f"%(1000* (time.monotonic() - ping_time))
 					await pinger.edit(content=":ping_pong: **Pong !**\n `Ping:" + ping + "`")
 
-
+				'''removed
 				elif message.content.lower().startswith(prefix + "say"):
 					args = message.content[4:]
 
@@ -237,7 +237,7 @@ class Juicy(commands.Bot):
 						await message.channel.send("<@"  + str(message.author.id) + ">")
 
 					await message.channel.send(args)
-
+				'''
 
 				elif message.content.lower().startswith(prefix + "8ball"):
 					async with message.channel.typing():
