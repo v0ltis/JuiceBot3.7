@@ -30,11 +30,13 @@ from Music_Commands import Music_Commands_Class
 print("Music classes has been imported !")
 
 from sys import argv
+from TOKEN import TOKEN
 
 if len(argv) > 1:
-        DEBUG = bool(argv[1])
+		TOKEN = argv[1]
+		DEBUG = bool(argv[2])
 else:
-        DEBUG = False
+		DEBUG = False
 
 class Juicy(commands.Bot):
 	def __init__(self, *args, **kwargs):
@@ -87,8 +89,6 @@ class Juicy(commands.Bot):
 				if message.content.upper().startswith(str(opt.prefix) + "OPTIONS"):
 					if not message.content[8:]:
 						await message.channel.send(opt_trad.help[langue])
-
-
 
 					elif str(message.author.id) not in admin:
 						await message.channel.send("Vous n'avez pas les permissions pour faire ça !")
@@ -441,7 +441,6 @@ class Juicy(commands.Bot):
 		if type(err) != discord.ext.commands.errors.CommandNotFound:
 			print(type(err),"\n",err)
 
-from TOKEN import TOKEN
 Bot = Juicy(command_prefix="/")
 
 import atexit

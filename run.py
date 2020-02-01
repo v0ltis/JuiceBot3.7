@@ -37,7 +37,7 @@ def run(file):
 import sys
 sys.path.append(this_dir+"\\Juicy")
 import main
-
+sys.argv.append("TOKEN_HERE")
 exec(main,sys.argv)
 
 #run(this_dir+Bot_location)

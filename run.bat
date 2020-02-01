@@ -4,7 +4,7 @@
 
 :more_to_process
     if %x% leq 5 (
-		python run.py
+		python run.py 1
 		pause
 		echo.
 		echo.

@@ -48,8 +48,10 @@ class Music_Commands_Class(commands.Cog):
 	async def auto_leave(self):
 		for voice in self.bot.voice_clients:
 			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
-				print("Auto leaving ...")
-				await voice.disconnect()
+				await asyncio.sleep(1)
+				if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
+					print("Auto leaving ...")
+					await voice.disconnect()
 
 	@commands.command()
 	async def auto_lv_test(self,ctx):
@@ -346,6 +348,7 @@ class Music_Commands_Class(commands.Cog):
 					self.music_info_per_guild[ctx.guild.id]['next_message'] = ''
 				await asyncio.sleep(0.10)
 			print('has been stoped')
+		
 		#play function
 		async def playing(self,ctx,url):
 			def next_embed():
@@ -372,7 +375,8 @@ class Music_Commands_Class(commands.Cog):
 				embed.set_author(name=keyword["uploader"], url=keyword["uploader_url"])
 				embed.set_thumbnail(url=keyword["thumbnail"])
 				embed.add_field(name="Time information", value=f"Upload date : {upload_day}/{upload_month}/{upload_year} \n Duration: {duration_hour} h {duration_minutes} min {duration_secondes} sec", inline=True)
-				embed.set_footer(text="Music currently played, if you dont wan't so many information try the simple music notification @juicybox")
+				embed.set_footer(text="Music currently played\
+					@juicybox")#, if you dont wan't so many information try the simple music notification \
 				
 				self.music_info_per_guild[ctx.guild.id]["next_embed"] = embed
 				if self.music_info_per_guild[ctx.guild.id]["is_playlist"]:
@@ -397,9 +401,10 @@ class Music_Commands_Class(commands.Cog):
 			#if playlist continue
 			def next_track(self):
 				index = self.music_info_per_guild[ctx.guild.id]['download_state'][0]
-				
+				print('has played one track')
 				if self.music_info_per_guild[ctx.guild.id]['download_complete'][0] and self.music_info_per_guild[ctx.guild.id]['download_complete'][0]<index:
 					self.music_info_per_guild[ctx.guild.id]['has_finished_playing'] = True
+					print('has finished playing')
 				
 				elif self.music_info_per_guild[ctx.guild.id]['is_playlist'] and not self.music_info_per_guild[ctx.guild.id]['stoped']:				
 					#waiting for file
