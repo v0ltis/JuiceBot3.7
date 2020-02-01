@@ -38,6 +38,10 @@ if len(argv) > 1:
 else:
 		DEBUG = False
 print(TOKEN)
+try:
+	TOKEN = os.environ["TOKEN_HERE"]
+except:
+	pass
 class Juicy(commands.Bot):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args,**kwargs)
