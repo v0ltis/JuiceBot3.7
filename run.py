@@ -36,6 +36,7 @@ def run(file):
 	else:
 	    print(check_output(executable+" -i {}".format(file), shell=True).decode())
 import sys
+print(this_dir)
 sys.path.append(this_dir+"\\Juicy")
 import main
 sys.argv.append(TOKEN)
