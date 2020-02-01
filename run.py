@@ -35,14 +35,13 @@ def run(file):
 	    print(check_output(executable+" -i {}".format(file), shell=True).decode())
 import sys
 print(this_dir)
+
 if "/" in this_dir:
 	sys.path.append(this_dir+"/Juicy")
 else:
 	sys.path.append(this_dir+"\\Juicy")
 
 import main
-sys.argv.append(os.environ["TOKEN_HERE"])
-print("first arg",sys.argv[1])
-exec(main,sys.argv)
+exec(main)
 
 #run(this_dir+Bot_location)
