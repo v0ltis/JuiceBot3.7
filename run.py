@@ -27,7 +27,7 @@ if not pass_update:
 
 this_dir = os.getcwd()
 print(this_dir)
-Bot_location = "\\Juicy\\main.py"
+Bot_location = "./Juicy/main.py"
 
 def run(file):
 	code1 = executable[:-5]+executable[-4:]+" -i {}".format(file)
