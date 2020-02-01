@@ -8,7 +8,8 @@ else:
         pass_update = False
 
 packages = ["pip","discord.py","youtube_dl","discord.py[voice]"]
-
+TOKEN = "TOKEN_HERE"
+print(TOKEN)
 
 def install_package(package):#it should work if not tell me it
 	code1 = executable[:-5] + executable[-4:]+" -m pip install --upgrade {}".format(package)
@@ -37,7 +38,7 @@ def run(file):
 import sys
 sys.path.append(this_dir+"\\Juicy")
 import main
-sys.argv.append("TOKEN_HERE")
+sys.argv.append(TOKEN)
 exec(main,sys.argv)
 
 #run(this_dir+Bot_location)
