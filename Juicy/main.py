@@ -37,7 +37,7 @@ if len(argv) > 1:
 		DEBUG = bool(argv[2])
 else:
 		DEBUG = False
-
+print(TOKEN)
 class Juicy(commands.Bot):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args,**kwargs)
