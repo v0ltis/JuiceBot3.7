@@ -1,3 +1,5 @@
+bot_moderator = [402896241429577729,362615539773997056]
+
 class trad():
     ball = {"fr":"oui non :person_shrugging_tone1: Je§ne§sais§pas Pourquois§tu§pose§la§question§? Sans§doutes Nan! Мен§кодексине§ката§жок§деп§ойлойм§! Nan§pourquois§?","en":"Absolutely§not§! Surely§! I§won't§awnser§this§question§. Of§course§not yes no :person_shrugging_tone1: nope I§don't§know Probably§... Of§course§! Yes§yes§and§yes§! I§think§yes. Nooooooooooooooooo§! Why§do§you§ask§me§this§question§? Мен§кодексине§ката§жок§деп§ойлойм§!"}
 
@@ -12,8 +14,7 @@ class trad():
 
 
 
-    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signialer l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}ping`` vous donne le ping du bot  \n ``{}say [texte]``: Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif``: Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}info``: Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball``: Répond à vos questions après un temps de réflexion, pour sa boule de crystal. \n ``{}calc``:  Vous permet de calculer, de grands nombres ! Apres c\'est un peu buggé :/ \n ``{}bin``: 01010100 01110010 01100001 01100100 01110101 01101001 01110100 00100000 01110110 01101111 01110011 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01100101 01101110 00100000 01100010 01101001 01101110 01100001 01101001 01110010 01100101',"Commandes Premiums :","Voicis les commandes premuims : \n ``{}set-status [texte] (type*)`` : Changera mon status avec le texte ! (* le type peut etre ``dnd`` : Ne pas deranger , ``idle`` : Inactif , ``online`` : en ligne , par default) Attention, ils sont tous **sauvegardé** !")
-
+    emb_fr = ('Voici la liste des commandes :','Commandes de modération:','Voici la liste des commandes de modération :\n ``{}report @Méchant_Utilisateur Raison`` pour signaler l\'utilisateur dans #report',"Commandes d'options:","Envoyez ``{}options`` dans un channel pour obtenir toutes les commandes !",'Commandes fun:','Voici les commandes fun: \n ``{}ping`` vous donne le ping du bot  \n ``{}say [texte]``: Fait dire au bot votre texte et supprime votre message si vous êtes admin. \n ``{}gif``: Envoie un GIF aléatoire, s\'il est marqué comme spoiler il peut être offenssant. \n ``{}info``: Donne de nonbreuses informations à propos des membres du serveur... ou vous-même ! \n ``{}8ball``: Répond à vos questions après un temps de réflexion, pour sa boule de crystal. \n ``{}calc``:  Vous permet de calculer, de grands nombres ! Apres c\'est un peu buggé :/ \n ``{}bin``: 01010100 01110010 01100001 01100100 01110101 01101001 01110100 00100000 01110110 01101111 01110011 00100000 01101101 01100101 01110011 01110011 01100001 01100111 01100101 01110011 00100000 01100101 01101110 00100000 01100010 01101001 01101110 01100001 01101001 01110010 01100101',"Commandes Premiums :","Voicis les commandes premuims : \n ``{}set-status [texte] (type*)`` : Changera mon status avec le texte ! (* le type peut etre ``dnd`` : Ne pas deranger , ``idle`` : Inactif , ``online`` : en ligne , par default) Attention, ils sont tous **sauvegardés** !")
 
     calc_en = ["That makes almost {}",
                 "I would say {}",
@@ -123,21 +124,24 @@ class data():
     volume = 0.5
 
     cant_say = {"fr":"Vous n'avez pas le droit de dire ``{}`` :rage: !","en":"You can't say ``{}`` here !"}
+
 class opt_trad():
 
     help = {'fr':"Choisisez : \n\
     **__get :__** ``prefix/admins/language/word`` \n\
-    **__set :__** ``prefix/language [value]`` \n\
-    **__add :__** ``admins/word [value]`` \n\
-    **__del :__** ``admins [value]`` \n\
-    **__reset :__** ``prefix/admins/language/word``",
+    **__set :__** ``prefix/language [valeur]``\n\
+    **__add :__** ``admins/word [valeur]`` \n\
+    **__del :__** ``admins [valeur]`` \n\
+    **__reset :__** ``prefix/admins/language/word``\n\
+    Les langues disponibles(valeur) sont 'fr' et 'en'",
     "en":
     "Make a choice : \n\
     **__get :__** ``prefix/admins/language/word`` \n\
     **__set :__** ``prefix/language [value]`` \n\
     **__add :__** ``admins/word [value]`` \n\
     **__del :__** ``admins/word [value]`` \n\
-    **__reset :__** ``prefix/admins/language/word``"}
+    **__reset :__** ``prefix/admins/language/word``\n\
+    Available languages(value) are 'fr' and 'en'"}
 
 
     need_ID = {"fr":"Veuillez precisez un id !","en":"Please specify an id!"}
@@ -182,7 +186,13 @@ music_tags = {"music_functs":"[Music] ","error":"[Error] "}
 
 music_trad = \
     {"fr":
-        {
+        {"help":
+            {"field_title":"Commandes de musique",
+            "field_value":" ``{prefix}play [url/recherche youtube]`` l'url peut être une playliste(pas un mix) ou une vidéo.\n\
+                            Elle doit être publique ou non répértorié. Les plateformes supportées sont celles-ci: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md\n\
+                            ``{prefix}pause``, ``{prefix}resume``\n\
+                             ``{prefix}stop``, ``{prefix}skip`` pour une playlist sinon similaire à ``{prefix}stop``\n\
+                             ``{prefix}join`` force le bot à rejoindre votre salon vocal, ``{prefix}leave`` force le bot à quitter votre salon vocal\n"},
         "play":
             {"not_switching":music_tags["music_functs"]+"Pas de problème je ne vais pas changer la musique actuelle.",
             "switching":music_tags["music_functs"]+"Pas de problème je vais changer la musique actuelle...",
@@ -206,7 +216,13 @@ music_trad = \
         },
 
     "en":
-        {
+        {"help":
+            {"field_title":"Music commands",
+            "field_value":" ``{prefix}play [url/youtube query]`` url can be a playlist(not a mix) or a video.\n\
+                            This one need to be public or unlisted. The supported websites are these one: https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md\n\
+                            ``{prefix}pause``, ``{prefix}resume``\n\
+                            ``{prefix}stop``, ``{prefix}skip`` for playlist else similar to stop\n\
+                            ``{prefix}join`` force joining, ``{prefix}leave`` force leaving\n"},
         "play":
             {"not_switching":music_tags["music_functs"]+"All rights, i won't change the current track.",
             "switching":music_tags["music_functs"]+"All rights, changing song...",

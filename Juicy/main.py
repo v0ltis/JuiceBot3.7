@@ -16,7 +16,7 @@ import random
 print("Random importé !")
 import datetime
 print("Datetime importé !")
-from ext import trad,data,opt_trad
+from ext import trad,data,opt_trad,music_trad
 print("La traduction a été importée !")
 from opts import del_opt, add_opt, set_opt, opt
 print("Opts functions has been imported !")
@@ -29,13 +29,19 @@ from Music_Commands import Music_Commands_Class
 
 print("Music classes has been imported !")
 
-DEBUG = True
+from sys import argv
+
+if len(argv) > 1:
+        DEBUG = bool(argv[1])
+else:
+        DEBUG = False
 
 class Juicy(commands.Bot):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args,**kwargs)
 
 		super().add_cog(Music_Commands_Class(self))
+		self.help_command = None
 		self.auto_leave_for_guild = {}
 		self.has_downloaded_the_first_track = {}
 		self.get_vars = ""
@@ -78,16 +84,6 @@ class Juicy(commands.Bot):
 
 				admin = opt.admin
 
-				banned_words = opt.bw
-
-				banned_words_humain = str(banned_words).replace("\",\"",",")
-				banned_words_humain = banned_words_humain.replace("[","")
-				banned_words_humain = banned_words_humain.replace("]","")
-				banned_words_humain = banned_words_humain.replace("\"","")
-
-
-
-
 				if message.content.upper().startswith(str(opt.prefix) + "OPTIONS"):
 					if not message.content[8:]:
 						await message.channel.send(opt_trad.help[langue])
@@ -105,15 +101,10 @@ class Juicy(commands.Bot):
 						elif message.content.upper()[13:] == "ADMINS":
 							await message.channel.send(opt_trad.now_id[langue].format(opt.admin))
 
-						elif message.content.upper()[13:] == "LANGUAGE":
+						elif message.content.upper()[15:] == "LANGUAGE":
 							await message.channel.send(opt_trad.lang.format(opt.langue))
 
-						elif message.content.upper()[13:] == "WORD":
-							await message.channel.send(opt_trad.now_word[langue].format(banned_words_humain))
-
-
-
-						else : await message.channel.send(syn_err )
+						else : await message.channel.send(syn_err)
 
 			#
 			#RESET
@@ -129,11 +120,7 @@ class Juicy(commands.Bot):
 							set_opt(message.guild.id,"admin",message.guild.owner.id)
 							await message.channel.send(opt_trad.admin_reset[langue].format(str(set_opt.new)))
 
-						elif message.content.upper()[15:] == "WORD":
-							set_opt(message.guild.id,"bw",None)
-							await message.channel.send(opt_trad.del_word_succès[langue].format({"fr":"tout","en":"everything"}[langue]))
-
-						elif message.content.upper()[15:] == "LANGUAGE":
+						elif message.content.upper()[17:] == "LANGUAGE":
 							set_opt(message.guild.id,"langue","en")
 							await message.channel.send("The selected language is now:  " + set_opt.new)
 						else :
@@ -185,13 +172,6 @@ class Juicy(commands.Bot):
 								await message.channel.send(opt_trad.add_id[langue].format(id))
 								await message.channel.send(opt_trad.now_id[langue].format(add_opt.new))
 
-						elif message.content.upper()[13:17] == "WORD":
-							word = str(message.content[18:])
-							add_opt(message.guild.id,"bw",word)
-							if add_opt.good == True:
-								await message.channel.send(opt_trad.word_succès[langue].format(word))
-							else: message.channel.send(opt_trad.err[langue])
-
 			#
 			#remove
 			#
@@ -215,29 +195,21 @@ class Juicy(commands.Bot):
 							else:
 								await message.channel.send(opt_trad.need_ID[langue])
 
-						elif message.content.upper()[13:17] == "WORD":
-							word = message.content[18:]
-							del_opt(message.guild.id,"bw",word)
-							if del_opt.good == True:
-								await message.channel.send(opt_trad.del_word_succès[langue].format(word))
-							else: await message.channel.send(opt_trad.err[langue])
-
 
 				elif message.content.lower().startswith(prefix + 'ping'):
 					ping_time = time.monotonic()
 					pinger = await message.channel.send(":ping_pong: **Pong !**")
 					ping = "%.2f"%(1000* (time.monotonic() - ping_time))
 					await pinger.edit(content=":ping_pong: **Pong !**\n `Ping:" + ping + "`")
-
-				'''removed
-				elif message.content.lower().startswith(prefix + "say"):
-					args = message.content[4:]
-
-					if not str(message.author.id) in admin:
-						await message.channel.send("<@"  + str(message.author.id) + ">")
-
-					await message.channel.send(args)
-				'''
+				#removed
+				
+#				elif message.content.lower().startswith(prefix + "say"):
+#					args = message.content[4:]
+#
+#					if not str(message.author.id) in admin:
+#						await message.channel.send("<@"  + str(message.author.id) + ">")
+#
+#					await message.channel.send(args)
 
 				elif message.content.lower().startswith(prefix + "8ball"):
 					async with message.channel.typing():
@@ -262,6 +234,7 @@ class Juicy(commands.Bot):
 					help.add_field(name = need[3],value = need[4].format(prefix), inline=False)
 					help.add_field(name= need[5],value = need[6].format(prefix,prefix,prefix,prefix,prefix,prefix,prefix), inline=False)
 					help.add_field(name= need[7],value = need[8].format(prefix), inline=False)
+					help.add_field(name=music_trad[langue]["help"]["field_title"],value=music_trad[langue]["help"]["field_value"].format(prefix=prefix))
 					help.set_footer(text = message.author.name,icon_url=message.author.avatar_url)
 					await message.channel.send(embed=help)
 
@@ -441,12 +414,6 @@ class Juicy(commands.Bot):
 						else:
 							await message.channel.send(trad.req_arg[langue].format(prefix))'''
 
-				'''removed
-				for x in banned_words:
-					if str(x).upper() in str(message.content).upper() and not str(message.author.id) in admin:
-						await message.delete()
-						await message.channel.send(trad.cant_say[langue].format(x))
-				'''
 
 			except Exception as e:
 					a = traceback.format_exc()
@@ -458,8 +425,10 @@ class Juicy(commands.Bot):
 					if DEBUG:
 						self.clear()
 						await self.close()
-
-			await self.process_commands(message)
+			try:
+				await self.process_commands(message)
+			except discord.ext.commands.CommandError:
+				pass
 
 	def which_language(self,ctx):
 		opt(ctx.guild,str(ctx.guild.owner.id))
@@ -468,13 +437,17 @@ class Juicy(commands.Bot):
 	async def what_language(self,ctx,author_id=None,member_id=None):#before having entirely updated the bot (old version)
 		return (0,0)
 
+	async def on_command_error(self,ctx,err):
+		if type(err) != discord.ext.commands.errors.CommandNotFound:
+			print(type(err),"\n",err)
+
 from TOKEN import TOKEN
 Bot = Juicy(command_prefix="/")
 
 import atexit
 
 def exit_handler():
-    Bot.clear()
+	Bot.clear()
 
 atexit.register(exit_handler)
 

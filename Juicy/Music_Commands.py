@@ -12,12 +12,10 @@ except:
 
 from opts import opt
 from ext import data as Consts
-from ext import music_trad, music_tags
+from ext import music_trad, music_tags, bot_moderator
 
 import os,youtube_dl
 import concurrent,asyncio,time
-
-
 
 class Music_Commands_Class(commands.Cog):
 	def __init__(self,bot):
@@ -52,13 +50,15 @@ class Music_Commands_Class(commands.Cog):
 			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
 				print("Auto leaving ...")
 				await voice.disconnect()
+
 	@commands.command()
 	async def auto_lv_test(self,ctx):
-		for voice in self.bot.voice_clients:
-			print(voice)
-			if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
-				print("Auto leaving ...")
-				await voice.disconnect()
+		if ctx.author.id in bot_moderator:
+			for voice in self.bot.voice_clients:
+				print(voice)
+				if self.bot.auto_leave_for_guild[voice.guild.id] and (self.music_info_per_guild[voice.guild.id]['has_finished_playing'] or self.music_info_per_guild[voice.guild.id]['stoped']):
+					print("Auto leaving ...")
+					await voice.disconnect()
 
 	@commands.command()
 	async def pause(self,ctx):
@@ -185,22 +185,24 @@ class Music_Commands_Class(commands.Cog):
 
 	@commands.command()
 	async def var_state(self,ctx):
-		msg = str(self.music_info_per_guild),str(self.bot.auto_leave_for_guild),str(self.bot.has_downloaded_the_first_track)
-		await ctx.send((self.bot.auto_leave_for_guild[ctx.guild.id],self.music_info_per_guild[ctx.guild.id]['has_finished_playing'],self.music_info_per_guild[ctx.guild.id]['stoped']))
+		if ctx.author.id in bot_moderator:
+			msg = str(self.music_info_per_guild),str(self.bot.auto_leave_for_guild),str(self.bot.has_downloaded_the_first_track)
+			await ctx.send((self.bot.auto_leave_for_guild[ctx.guild.id],self.music_info_per_guild[ctx.guild.id]['has_finished_playing'],self.music_info_per_guild[ctx.guild.id]['stoped']))
 	
 	@commands.command()
 	async def get_dict(self,ctx,*,arg:str):
-		'''
-		if arg in self.bot.get_vars.keys():
-			await ctx.send(self.bot.get_vars[arg])
-		else:
-			await ctx.send("key does not exist")
-		'''
-		await ctx.send(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])
-		print(str(self.music_info_per_guild[ctx.guild.id])+"\n\n\t")
-		print(str(self.music_info_per_guild[ctx.guild.id]["extracted_info"])+"\n\n\t")
-		print(str(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])+"\n\n\t")
-		await ctx.send(self.music_info_per_guild[ctx.guild.id]["extracted_info"][self.music_info_per_guild[ctx.guild.id]["index_currently_played"]])
+		if ctx.author.id in bot_moderator:
+			'''
+			if arg in self.bot.get_vars.keys():
+				await ctx.send(self.bot.get_vars[arg])
+			else:
+				await ctx.send("key does not exist")
+			'''
+			await ctx.send(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])
+			print(str(self.music_info_per_guild[ctx.guild.id])+"\n\n\t")
+			print(str(self.music_info_per_guild[ctx.guild.id]["extracted_info"])+"\n\n\t")
+			print(str(self.music_info_per_guild[ctx.guild.id]["index_currently_played"])+"\n\n\t")
+			await ctx.send(self.music_info_per_guild[ctx.guild.id]["extracted_info"][self.music_info_per_guild[ctx.guild.id]["index_currently_played"]])
 
 
 	@commands.command(name="play")
