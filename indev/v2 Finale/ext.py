@@ -58,6 +58,20 @@ class trad():
 
 
     req_arg = {"fr":"Vous devez preciser un status! \n Exemple : ``{}set-status J'aime Juicy``","en":"You must precise a status! \n Exemple : ``{}set-status I love Juicy``"}
+
+
+    cant_say = {"fr":"Vous n'avez pas le droit de dire ``{}`` :rage: !","en":"You can't say ``{}`` here !"}
+
+
+
+    url_req = {"en":"Original Search :","fr":"Recherche origiale :"}
+    url_name = {"en":"Page name :","fr":"Nom de la page"}
+    url_desc = {"en":"Page description","fr":"Description de la page"}
+
+
+
+
+    
 class data():
     gifs = ["https://giphy.com/gifs/AuIvUrZpzBl04",
     			"https://giphy.com/gifs/hello-hey-big-brother-l0MYBbEvqqi1kfuyA",
@@ -85,28 +99,7 @@ class data():
                 '|| https://media.giphy.com/media/w1XrYq5PsCbyE/giphy.gif ||']
 
 
-    music_location = './Tracks/'
-    def my_hook(d):
-    	if d['status'] == 'finished':
-    		print("one track more")
-    ytdl_options = {
-	'keepvideo':True,
-	'format': 'bestaudio/best',
-	'usenetrc': True,
-	'outtmpl': music_location+'{}[{}]-%(title)s.%(ext)s',
-	'nocheckcertificate': True,
-	'default_search': 'auto',
-	'progress_hooks': [my_hook],
-	'quiet': True,
-	'no_warnings':True
-	}
-    outtmpl = music_location+'{}[{}]-%(title)s.%(ext)s'
 
-    file_name = music_location+'{}[{}].webm'
-
-    volume = 4
-
-    cant_say = {"fr":"Vous n'avez pas le droit de dire ``{}`` :rage: !","en":"You can't say ``{}`` here !"}
 
 
 
