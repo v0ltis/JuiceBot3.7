@@ -179,7 +179,7 @@ class Juicy(commands.Bot):
 						if message.content.upper()[13:18] == "ADMIN":
 							id = message.content.upper()[19:37]
 							add_opt(message.guild.id,"admin",id)
-							if add_opt.already == True:
+							if add_opt.already:
 								await message.channel.send(opt_trad.alr_admin[langue])
 							else:
 								await message.channel.send(opt_trad.add_id[langue].format(id))
@@ -193,7 +193,7 @@ class Juicy(commands.Bot):
 							else: message.channel.send(opt_trad.err[langue])
 
 			#
-			#DEL
+			#remove
 			#
 
 					elif message.content.upper()[9:12] == "DEL":
@@ -413,9 +413,6 @@ class Juicy(commands.Bot):
 				elif message.content.upper().startswith(prefix + "SERVER-INFO"):
 					prop = str(guild.owner.id)
 
-				#elif message.content.upper()
-
-
 				elif opt.premuim:
 					if message.content.lower().startswith(prefix + "set-status") and str(message.author.id) in str(admin):
 
@@ -440,12 +437,13 @@ class Juicy(commands.Bot):
 							pres.write(str(datetime.datetime.now()) + " - \"" + for_file + "\" - " + str(message.author.id) + " - " + str(message.author) + "\n")
 						else:
 							await message.channel.send(trad.req_arg[langue].format(prefix))
-
+				'''removed
 				for x in banned_words:
 					if str(x).upper() in str(message.content).upper() and not str(message.author.id) in admin:
 						await message.delete()
 						await message.channel.send(trad.cant_say[langue].format(x))
-
+				'''
+				
 			except Exception as e:
 					a = traceback.format_exc()
 					file = open("errors.txt","a")
