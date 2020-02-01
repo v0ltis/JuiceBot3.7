@@ -1,1 +1,1 @@
-worker: python .\Juicy\main.py
+worker: python ./Juicy/main.py
