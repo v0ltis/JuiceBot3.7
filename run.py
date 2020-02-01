@@ -42,6 +42,7 @@ else:
 
 import main
 sys.argv.append(os.environ["TOKEN_HERE"])
+print(sys.argv[1])
 exec(main,sys.argv)
 
 #run(this_dir+Bot_location)
