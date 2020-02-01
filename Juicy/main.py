@@ -414,6 +414,9 @@ class Juicy(commands.Bot):
 					prop = str(guild.owner.id)
 
 				elif opt.premuim:
+					pass
+
+					'''??? not removed 
 					if message.content.lower().startswith(prefix + "set-status") and str(message.author.id) in str(admin):
 
 						no_com = message.content.replace("{}set-status ".format(prefix),"",1)
@@ -436,14 +439,15 @@ class Juicy(commands.Bot):
 							pres = open("pres.txt","a")
 							pres.write(str(datetime.datetime.now()) + " - \"" + for_file + "\" - " + str(message.author.id) + " - " + str(message.author) + "\n")
 						else:
-							await message.channel.send(trad.req_arg[langue].format(prefix))
+							await message.channel.send(trad.req_arg[langue].format(prefix))'''
+
 				'''removed
 				for x in banned_words:
 					if str(x).upper() in str(message.content).upper() and not str(message.author.id) in admin:
 						await message.delete()
 						await message.channel.send(trad.cant_say[langue].format(x))
 				'''
-				
+
 			except Exception as e:
 					a = traceback.format_exc()
 					file = open("errors.txt","a")
