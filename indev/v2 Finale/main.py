@@ -51,18 +51,8 @@ def del_opt(serv, option, new):
     param = param.read()
     param = (json.loads(param) )
 
-    if option == "bw":
-        bw = open(str(serv) + "/bw.txt","r")
-        bw = bw.read()
-        new = new.replace(" ","_")
-        new += " "
-        nFile = bw.replace(new,"")
-        bw = open(str(serv) + "/bw.txt","w")
-        bw.write(nFile)
-        del_opt.good = True
-
     #del opt
-    elif not new in param[option]:
+    if not new in param[option]:
         del_opt.already = "oui"
 
 
@@ -96,17 +86,8 @@ def add_opt(serv, option, new):
     param = (json.loads(param) )
 
     #add opt
-    if option == "bw":
-        bw = open(str(serv) + "/bw.txt","a")
-        new = new.replace(" ","_")
-        new += " "
-        bw.write(new)
-        add_opt.good = True
-
-
-    elif new in param[option]:
+    if new in param[option]:
         add_opt.already = True
-
 
     else:
         param[option] = param[option] + (" " + str(new))
@@ -123,26 +104,19 @@ def add_opt(serv, option, new):
 #
 def set_opt(serv, option, new):
 
+    param = open(str(serv) + "/option.txt","r")
+    param = param.read()
+    param = (json.loads(param) )
 
-    if option == "bw":
-        file = open(str(serv) + "/bw.txt","w")
-        file.write("")
+    #new opt :
 
+    param[option] = new
 
-    else:
-        param = open(str(serv) + "/option.txt","r")
-        param = param.read()
-        param = (json.loads(param) )
+    set_opt.new = param[option]
 
-        #new opt :
-
-        param[option] = new
-
-        set_opt.new = param[option]
-
-        new_param = open(str(serv) + "/option.txt","w")
-        param = json.dumps(param)
-        new_param.write(param)
+    new_param = open(str(serv) + "/option.txt","w")
+    param = json.dumps(param)
+    new_param.write(param)
 
 
 #
@@ -153,9 +127,7 @@ def opt(guild,owner):
         serv =  guild.id
 #       ouvre les paramètres
         param = open(str(serv) + "/option.txt","r")
-        ban_w = open(str(serv) + "/bw.txt","r")
         param = param.read()
-        ban_w = ban_w.read()
         param = (json.loads(param) )
 
     except FileNotFoundError:
@@ -163,16 +135,11 @@ def opt(guild,owner):
         os.makedirs(str(serv))
         param = open(str(serv) + "/option.txt","a")
         param.write('{"langue":"en","admin":"' + owner + '","prefix":"/"}')
-        ban_w = open(str(serv) + "/bw.txt","a")
 #          ouvre les paramètres
         param = open(str(serv) + "/option.txt","r")
-        ban_w = open(str(serv) + "/bw.txt","a")
         param = param.read()
-        ban_w = ban_w.read()
         param = (json.loads(param) )
 
-    ban_w = ban_w.split()
-    opt.bw = [w.replace('_', ' ') for w in ban_w]
 
     opt.admin = str(param["admin"])
 
@@ -208,15 +175,6 @@ async def on_message(message):
 
 			admin = opt.admin
 
-			banned_words = opt.bw
-
-			banned_words_humain = str(banned_words).replace("\",\"",",")
-			banned_words_humain = banned_words_humain.replace("[","")
-			banned_words_humain = banned_words_humain.replace("]","")
-			banned_words_humain = banned_words_humain.replace("\"","")
-
-
-
 
 			if message.content.upper().startswith(str(opt.prefix) + "OPTIONS"):
 				if not message.content[8:]:
@@ -235,12 +193,8 @@ async def on_message(message):
 					elif message.content.upper()[13:] == "ADMINS":
 						await message.channel.send(opt_trad.now_id[langue].format(opt.admin))
 
-					elif message.content.upper()[13:] == "LANGUAGE":
+					elif message.content.upper()[15:] == "LANGUAGE":
 						await message.channel.send(opt_trad.lang.format(opt.langue))
-
-					elif message.content.upper()[13:] == "WORD":
-						await message.channel.send(opt_trad.now_word[langue].format(banned_words_humain))
-
 
 
 					else : await message.channel.send(syn_err )
@@ -259,16 +213,11 @@ async def on_message(message):
 						set_opt(message.guild.id,"admin",message.guild.owner.id)
 						await message.channel.send(opt_trad.admin_reset[langue].format(str(set_opt.new)))
 
-					elif message.content.upper()[15:] == "WORD":
-						set_opt(message.guild.id,"bw",None)
-						await message.channel.send(opt_trad.del_word_succès[langue].format({"fr":"tout","en":"everything"}[langue]))
-
-					elif message.content.upper()[15:] == "LANGUAGE":
+					elif message.content.upper()[17:] == "LANGUAGE":
 						set_opt(message.guild.id,"langue","en")
 						await message.channel.send("The selected language is now:  " + set_opt.new)
 					else :
 						await message.channel.send(opt_trad.syn_err[langue].format(prefix, "reset"))
-
 
 
         #
@@ -309,21 +258,15 @@ async def on_message(message):
 					if message.content.upper()[13:18] == "ADMIN":
 						id = message.content.upper()[19:37]
 						add_opt(message.guild.id,"admin",id)
-						if add_opt.already == True:
-							await message.channel.send(opt_trad.alr_admin[langue])
+						if add_opt.already:
+							await message.channel.send(opt_trad.alr_admin[lanu])
 						else:
 							await message.channel.send(opt_trad.add_id[langue].format(id))
 							await message.channel.send(opt_trad.now_id[langue].format(add_opt.new))
 
-					elif message.content.upper()[13:17] == "WORD":
-						word = str(message.content[18:])
-						add_opt(message.guild.id,"bw",word)
-						if add_opt.good == True:
-						    await message.channel.send(opt_trad.word_succès[langue].format(word))
-						else: message.channel.send(opt_trad.err[langue])
 
         #
-        #DEL
+        #remove
         #
 
 				elif message.content.upper()[9:12] == "DEL":
@@ -344,14 +287,6 @@ async def on_message(message):
 									await print(del_opt.exce)
 						else:
 							await message.channel.send(opt_trad.need_ID[langue])
-
-					elif message.content.upper()[13:17] == "WORD":
-						word = message.content[18:]
-						del_opt(message.guild.id,"bw",word)
-						if del_opt.good == True:
-							await message.channel.send(opt_trad.del_word_succès[langue].format(word))
-						else: await message.channel.send(opt_trad.err[langue])
-
 
 			elif message.content.lower().startswith(prefix + 'ping'):
 				ping_time = time.monotonic()
@@ -543,8 +478,6 @@ async def on_message(message):
 			elif message.content.upper().startswith(prefix + "SERVER-INFO"):
 			    prop = str(guild.owner.id)
 
-			#elif message.content.upper()
-
 
 			elif opt.premuim:
 			    if message.content.lower().startswith(prefix + "set-status") and str(message.author.id) in str(admin):
@@ -571,15 +504,12 @@ async def on_message(message):
 			        else:
 			            await message.channel.send(trad.req_arg[langue].format(prefix))
 
-			for x in banned_words:
-				if str(x).upper() in str(message.content).upper() and not str(message.author.id) in admin:
-					await message.delete()
-					await message.channel.send(trad.cant_say[langue].format(x))
+
 
 		except Exception as e:
 		          print(e)
 		          file = open("errors.txt","a")
 		          file.write(str(e) + "\n")
-		          await message.channel.send(trad.err[opt.langue].format(str(e), str(message.content) ))
+		          await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
 
-client.run("TOKEN")
+client.run(TOKEN)
