@@ -1,10 +1,9 @@
 discord
-#discord.py + discord.py[voice]
 asyncio
 aiohttp
 youtube-dl
-#PyNaCl installed with discord.py
+PyNaCl
 requests
-#scrapy no more needed
-#Pillow not for the moment
+scrapy
+Pillow
 ffmpeg

@@ -1,0 +1,2 @@
+langue id = {0 : Unknow ,1 : English , 2 : Frensh}
+what_language = return (langue id, langue) ex : (0[Unknow],0[English])
