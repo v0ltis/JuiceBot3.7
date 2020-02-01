@@ -38,6 +38,10 @@ def run(file):
 import sys
 print(this_dir)
 sys.path.append(this_dir+"\\Juicy")
+Is_heroku = not bool("ISHEROKU")
+if Is_heroku:
+	sys.path.append(this_dir+"/Juicy")
+
 import main
 sys.argv.append(TOKEN)
 exec(main,sys.argv)
