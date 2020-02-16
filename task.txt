@@ -6,3 +6,6 @@ volume cmd
 author/uploader image ==> beautidul soup
 auto leaving
 recoding play/download ==> opti
+
+Not working:
+auto leave

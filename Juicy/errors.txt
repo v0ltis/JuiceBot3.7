@@ -1,1 +1,13 @@
-not readable
+Exemple:
+
+Traceback (most recent call last):
+  File "\GitHub\JuiceBot3.7\Juicy\main.py", line 80, in on_message
+    opt(message.guild,str(message.guild.owner.id))
+  File "\GitHub\JuiceBot3.7\Juicy\opts.py", line 89, in opt
+    os.makedirs(str(serv))
+  File "\Python3.7\lib\os.py", line 221, in makedirs
+    mkdir(name, mode)
+FileExistsError: [WinError 183] Impossible de créer un fichier déjà existant: 'id'
+
+True errors:
+

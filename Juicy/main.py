@@ -6,7 +6,7 @@ print("Asyncio importé !")
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 print("Discord.ext importé !")
-import os
+import os,sys
 print("Os importé !")
 import json
 print("Json importé !")
@@ -16,7 +16,7 @@ import random
 print("Random importé !")
 import datetime
 print("Datetime importé !")
-from ext import trad,data,opt_trad,music_trad
+from ext import trad,data,opt_trad,music_trad,channels_ids,bot_moderator_ids,files
 print("La traduction a été importée !")
 from opts import del_opt, add_opt, set_opt, opt
 print("Opts functions has been imported !")
@@ -26,28 +26,16 @@ import traceback#gestion des erreurs
 print("Importations des fonctions de musique...")
 
 from Music_Commands import Music_Commands_Class
-
+from everything import everything_in_a_class
 print("Music classes has been imported !")
 
-from sys import argv
-from TOKEN import TOKEN
+from sys import argv #Set token by python args
 
-if len(argv) > 1:
-		TOKEN = argv[1]
-		DEBUG = bool(argv[2])
-else:
-		DEBUG = False
-print(TOKEN)
-try:
-	TOKEN = os.environ["TOKEN_HERE"]
-except:
-	pass
-	
 class Juicy(commands.Bot):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args,**kwargs)
-
 		super().add_cog(Music_Commands_Class(self))
+		super().add_cog(everything_in_a_class(self))
 		self.help_command = None
 		self.auto_leave_for_guild = {}
 		self.has_downloaded_the_first_track = {}
@@ -74,8 +62,53 @@ class Juicy(commands.Bot):
 		print(len(guil_))
 
 		print("\n \t Demarage terminé")
-		self.change_status.start()
+
+		self.change_status.start()#boucle qui tourne à l'infini plus propre comme ça à l'aide de discord.tasks
+
+		for channel_id in channels_ids["log"]:
+			log_channel = self.get_channel(channel_id)
+			if log_channel != None:
+				await log_channel.send("Rebooting complete !")
 	
+	async def error_handler(self,e,message=None,ctx=None):#is that spelling this way ?
+		if message == None and ctx != None:
+			message = ctx.message
+		elif message != None and ctx == None:
+			ctx = await self.get_context(message)
+		a = traceback.format_exception(type(e), e, e.__traceback__)
+		file = open(files["error"],"a")
+		file.write(message.content+'\n')
+		file.write("\t")
+		for x in traceback.format_exception(type(e), e, e.__traceback__):
+			file.write(x)
+		file.write("\n")
+		opt(message.guild,str(message.guild.owner.id))
+		langue = opt.langue
+		await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
+
+		if ctx != None:
+			err = e
+			print(type(err),"\n",err)
+			Error_msg = 'Ignoring exception in command {}]:\n'.format(ctx.command)
+			Error_msg = Error_msg + '='*(len(Error_msg)+1) + '\n'
+			for x in traceback.format_exception(type(err), err, err.__traceback__):
+				Error_msg = Error_msg + x
+			to_send = "```Markdown\n [Error : {}\n#[Command : {}]```".format(Error_msg,ctx.message.content)
+			for channels_id in channels_ids["error"]:
+				err_channel = self.get_channel(channels_id)
+				if err_channel != None:
+					await err_channel.send(to_send)
+		'''
+		for channels_id in channels_ids["error"]:
+			err_channel = self.get_channel(channels_id)
+			if err_channel != None:
+				await err_channel.send(str(a))
+		'''
+		if DEBUG:#close while debugging
+			print("Debugging is enable (1 in bat or py file) closing... (use [TOKEN] 0) to disable debugging.")
+			self.clear()
+			await self.close()
+
 	async def on_message(self,message):
 
 		if message.author == self.user or message.channel.type == "private":
@@ -354,9 +387,9 @@ class Juicy(commands.Bot):
 						report.add_field(name=repor[2], value=raison, inline=False)
 						report.add_field(name="ID:", value=message.author.id, inline=False)
 						Find_Chan =  False
+
 						for channel in message.guild.channels:
 							if channel.name == 'report':
-
 								await channel.send(embed=report)
 								Find_Chan = True
 
@@ -374,14 +407,16 @@ class Juicy(commands.Bot):
 
 				elif message.content.upper().startswith(prefix + "CONTACT"):
 					contact = message.content[9:]
-					ticket_chan = self.get_channel(653195902910988309)
-
 					ticket = discord.Embed(color=0x7851A9)
 					ticket.add_field(name="ticket de :",value=message.author.mention,inline=False)
 					ticket.add_field(name="Contenu ticket :",value=contact,inline=False)
 					ticket.set_author( name=message.author.name, icon_url=message.author.avatar_url)
 					ticket.set_footer(text="ID de l'utilisateur :" + str(message.author.id))
-					await ticket_chan.send(embed=ticket)
+					for channel_id in channels_ids["ticket"]:
+						ticket_chan = self.get_channel(channel_id)
+						if ticket_chan != None:
+							await ticket_chan.send(embed=ticket)
+
 					await message.channel.send(trad.ticket[langue])
 
 				elif message.content.upper().startswith(prefix + "SUPPORT") or message.content.startswith("<@!528268989525131274>") or message.content.startswith("<@528268989525131274>"):
@@ -421,15 +456,7 @@ class Juicy(commands.Bot):
 
 
 			except Exception as e:
-					a = traceback.format_exc()
-					file = open("errors.txt","a")
-					file.write(str(a) + "\n")
-					opt(message.guild,str(message.guild.owner.id))
-					langue = opt.langue
-					await message.channel.send(trad.err[langue].format(str(e), str(message.content) ))
-					if DEBUG:
-						self.clear()
-						await self.close()
+				await self.error_handler(err,message=message)
 			try:
 				await self.process_commands(message)
 			except discord.ext.commands.CommandError:
@@ -442,17 +469,37 @@ class Juicy(commands.Bot):
 	async def what_language(self,ctx,author_id=None,member_id=None):#before having entirely updated the bot (old version)
 		return (0,0)
 
-	async def on_command_error(self,ctx,err):
+	async def on_command_error(self,ctx,err):#Be carefull
 		if type(err) != discord.ext.commands.errors.CommandNotFound:
+			await self.error_handler(err,ctx=ctx)
+			'''
 			print(type(err),"\n",err)
+			Error_msg = 'Ignoring exception in command {}]:\n'.format(ctx.command)
+			Error_msg = Error_msg + '='*(len(Error_msg)+1) + '\n'
+			for x in traceback.format_exception(type(err), err, err.__traceback__):
+				Error_msg = Error_msg + x
+			to_send = "```Markdown\n [Error : {}\n#[Command : {}]```".format(Error_msg,ctx.message.content)
+			for channels_id in channels_ids["error"]:
+				err_channel = self.get_channel(channels_id)
+				if err_channel != None:
+					await err_channel.send(to_send)'''
+
 
 Bot = Juicy(command_prefix="/")
+#Normal host
+if len(argv) > 1:
+	TOKEN = argv[1]
+	if len(argv) > 2:
+		DEBUG = bool(argv[1])
+else:
+		DEBUG = False
 
-import atexit
+#Heroku host
+try:
+	TOKEN = os.environ["TOKEN_HERE"]
+except:
+	pass
 
-def exit_handler():
-	Bot.clear()
-
-atexit.register(exit_handler)
+print(TOKEN)#debugging
 
 Bot.run(TOKEN)

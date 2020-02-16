@@ -1,1 +1,0 @@
-join = (('You need to be in a voice channel !','Succesfully connected'),('Vous devez être dans un salon vocal','Connecté avec succès'))
