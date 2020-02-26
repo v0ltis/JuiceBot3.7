@@ -7,5 +7,7 @@ author/uploader image ==> beautidul soup
 auto leaving
 recoding play/download ==> opti
 
+add contact in help cmd
+
 Not working:
 auto leave

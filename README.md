@@ -1,5 +1,6 @@
 # JuiceBot3.7
- Juicy's rewrite for python 3.7+ with latest discord.py version
+
+Juicy's rewrite for python 3.7+ with latest discord.py version
 
 JuiceBox is a free french discord bot which is able to:
 
@@ -7,7 +8,8 @@ JuiceBox is a free french discord bot which is able to:
   - Play music
   - Have fun
 
-##Instalation
+## Instalation
+
 Replace TOKEN_HERE by your discord bot token in the run.bat file.
 if your are on linux go in ./JuiceBot3.7 and execute 
 ``````
@@ -15,11 +17,13 @@ py run.py Your_token *1
 1 enable debugging (optional)
 ``````
 
-##Troubleshotting
+## Troubleshotting
+
 We are currently searching for a host for the bot. So the current version is not up to date. The next version is in the applied-in-dev2.1 branch.
 You can contact us with the contact command.
 
-##Available commands
+## Available commands
+
 Here is the commands list :
 
 | Server management commands | Description |
